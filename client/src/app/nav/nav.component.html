@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3 pb-3">
+	<div class="container-fluid">
+		<a class="navbar-brand nav-link fw-semibold" [routerLink]="'./'">Home</a> 
+
+		<button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+
+		<div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse fs-5 d-flex justify-content-lg-start justify-content-lg-end">
+			<div class="navbar-nav">
+				<a [routerLinkActive]="'active'" class="nav-item nav-link" [routerLink]="'/profile'" (click)="isMenuCollapsed = true">Profile</a>
+				<a [routerLinkActive]="'active'" class="nav-item nav-link" [routerLink]="'/sign-up'" (click)="isMenuCollapsed = true">Sign Up</a>
+				<a [routerLinkActive]="'active'" class="nav-item nav-link" [routerLink]="'/sign-in'" (click)="isMenuCollapsed = true">Sign In</a>
+			</div>
+		</div>
+	</div>
+</nav>
