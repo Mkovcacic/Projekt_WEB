@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
+import { Button, Form, Modal } from 'react-bootstrap'
 import type { Review } from '../App'
-import './AddReviewModal.css'
 
 type AddReviewModalProps = {
   isOpen: boolean
@@ -9,13 +9,14 @@ type AddReviewModalProps = {
   onAddReview: (review: Omit<Review, 'id' | 'date'>) => void
 }
 
-function AddReviewModal({ isOpen, onClose, onAddReview }: AddReviewModalProps) {
-
+function AddReviewModal({
+  isOpen,
+  onClose,
+  onAddReview,
+}: AddReviewModalProps) {
   const [title, setTitle] = useState('')
   const [rating, setRating] = useState('')
   const [text, setText] = useState('')
-
-  if (!isOpen) return null
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -38,35 +39,40 @@ function AddReviewModal({ isOpen, onClose, onAddReview }: AddReviewModalProps) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="modal-header">
-          <h2>Dodaj komentar</h2>
+    <Modal
+      show={isOpen}
+      onHide={onClose}
+      centered
+      dialogClassName="add-review-modal"
+    >
+      <Form onSubmit={handleSubmit}>
+        <Modal.Header closeButton className="border-0 px-4 pt-4 pb-0">
+          <Modal.Title as="h2">
+            Dodaj komentar
+          </Modal.Title>
+        </Modal.Header>
 
-          <button className="modal-close-button" onClick={onClose}>
-            ×
-          </button>
-        </div>
+        <Modal.Body className="d-flex flex-column gap-3 px-4 py-3">
+          <Form.Group controlId="title">
+            <Form.Label className="fw-semibold">
+              Naslov filma ili serije
+            </Form.Label>
 
-        <form className="review-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Naslov filma ili serije</label>
-            <input
-              id="title"
+            <Form.Control
               type="text"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               placeholder="Npr. Interstellar"
+              className="rounded-4 py-3 px-3"
             />
-          </div>
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="rating">Ocjena</label>
-            <input
-              id="rating"
+          <Form.Group controlId="rating">
+            <Form.Label className="fw-semibold">
+              Ocjena
+            </Form.Label>
+
+            <Form.Control
               type="number"
               min="0"
               max="5"
@@ -74,36 +80,46 @@ function AddReviewModal({ isOpen, onClose, onAddReview }: AddReviewModalProps) {
               value={rating}
               onChange={(event) => setRating(event.target.value)}
               placeholder="Npr. 4.5"
+              className="rounded-4 py-3 px-3"
             />
-          </div>
+          </Form.Group>
 
-          <div className="form-group">
-            <label htmlFor="comment">Komentar</label>
-            <textarea
-              id="comment"
+          <Form.Group controlId="comment">
+            <Form.Label className="fw-semibold">
+              Komentar
+            </Form.Label>
+
+            <Form.Control
+              as="textarea"
               rows={5}
               value={text}
               onChange={(event) => setText(event.target.value)}
               placeholder="Napiši svoje mišljenje..."
+              className="rounded-4 py-3 px-3"
             />
-          </div>
+          </Form.Group>
+        </Modal.Body>
 
-          <div className="modal-actions">
-            <button
-              type="button"
-              className="cancel-button"
-              onClick={onClose}
-            >
-              Odustani
-            </button>
+        <Modal.Footer className="border-0 pt-0 flex-column flex-sm-row gap-2">
+          <Button
+            type="button"
+            variant="light"
+            className="w-sm-auto rounded-pill px-4 py-2 fw-semibold"
+            onClick={onClose}
+          >
+            Odustani
+          </Button>
 
-            <button type="submit" className="submit-button">
-              Objavi komentar
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          <Button
+            type="submit"
+            variant="dark"
+            className="w-sm-auto rounded-pill px-4 py-2 fw-semibold bg-primary"
+          >
+            Objavi komentar
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
   )
 }
 
