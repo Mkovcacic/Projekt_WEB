@@ -112,7 +112,7 @@ function EditProfileModal({
           <Button
             type="submit"
             variant="dark"
-            className="edit-profile-modal-button rounded-pill px-4 py-2 fw-semibold"
+            className="edit-profile-modal-button rounded-pill px-4 py-2 fw-semibold bg-primary"
           >
             Spremi promjene
           </Button>

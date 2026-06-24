@@ -100,7 +100,7 @@ function HomePage({ reviews }: HomePageProps) {
           ))
         ) : (
           <p className="no-reviews">
-            Nema reviewa koji odgovaraju odabranim filterima.
+            Nema osvrta koji odgovaraju odabranim filterima.
           </p>
         )}
       </section>

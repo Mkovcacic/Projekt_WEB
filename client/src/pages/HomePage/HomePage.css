@@ -22,12 +22,12 @@
 
 .review-filters {
   display: grid;
-  grid-template-columns: 1fr 1fr 220px;
+  grid-template-columns: 2fr 2fr 2fr;
   gap: 16px;
   margin-bottom: 28px;
   padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: white;
+  border: 1px solid white;
   border-radius: 18px;
 }
 
@@ -35,7 +35,7 @@
 .review-filters select {
   width: 100%;
   padding: 13px 15px;
-  border: 1px solid #d1d5db;
+  border: 1px solid white;
   border-radius: 12px;
   font-size: 15px;
   outline: none;
@@ -54,8 +54,8 @@
 
 .review-card {
   padding: 24px;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: white;
+  border: 1px solid white;
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
   text-align: left;
@@ -128,8 +128,7 @@
 
 .no-reviews {
   padding: 22px;
-  background-color: #ffffff;
-  
+  background-color: white;
   border-radius: 18px;
   color: #6b7280;
   font-size: 16px;
@@ -139,9 +138,12 @@
   .review-card-header {
     flex-direction: column;
   }
+  .rating-range {
+    flex-direction: column;
+  }
 }
 
-@media only screen and (min-width: 600px)  and (max-width: 768px) {
+@media only screen and (min-width: 668px)  and (max-width: 768px) {
   .homepage {
     padding: 28px 16px;
   }
@@ -162,7 +164,7 @@
   
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 668px) {
 
   .review-filters {
     grid-template-columns: 1fr;
