@@ -1,20 +1,21 @@
 import { useState } from 'react'
 import EditProfileModal from '../../components/EditProfileModal'
-import type { Review, UserProfile } from '../../App'
+import type { UserProfile } from '../../App'
+import type { Review } from '../../services/api'
 import './ProfilePage.css'
 
 type ProfilePageProps = {
   reviews: Review[]
   userProfile: UserProfile
-  onUpdateProfile: (updatedProfile: UserProfile) => void
+  setUserProfile: React.Dispatch<React.SetStateAction<UserProfile>>
 }
 
-function ProfilePage({ reviews, userProfile, onUpdateProfile }: ProfilePageProps) {
+function ProfilePage({ reviews, userProfile, setUserProfile }: ProfilePageProps) {
   const currentUser = 'Ana Kovač'
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   const userReviews = reviews.filter(
-    (review) => review.author === currentUser,
+    (review) => review.authorName === currentUser,
   )
 
   const averageRating =
@@ -64,11 +65,11 @@ function ProfilePage({ reviews, userProfile, onUpdateProfile }: ProfilePageProps
         <div className="profile-review-list">
           {userReviews.length > 0 ? (
             userReviews.map((review) => (
-              <article key={review.id} className="profile-review-card">
+              <article key={review._id} className="profile-review-card">
                 <div className="profile-review-top">
                   <div>
-                    <h3>{review.title}</h3>
-                    <p>{review.date}</p>
+                    <h3>{review.movieTitle}</h3>
+                    <p>{review.createdAt}</p>
                   </div>
 
                   <span>{review.rating}/5</span>
@@ -89,7 +90,7 @@ function ProfilePage({ reviews, userProfile, onUpdateProfile }: ProfilePageProps
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         userProfile={userProfile}
-        onSave={onUpdateProfile}
+        onSave={setUserProfile}
       />
     </main>
   )

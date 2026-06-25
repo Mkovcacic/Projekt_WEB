@@ -1,16 +1,9 @@
 import { Link } from 'react-router'
-import { useState } from 'react'
-import { Navbar as BSNavbar, Nav, Button, Container } from 'react-bootstrap'
-import AddReviewModal from './AddReviewModal'
-import type { Review } from '../App'
+import { Navbar as BSNavbar, Nav, Container } from 'react-bootstrap'
 import './Navbar.css'
 
-type NavbarProps = {
-  onAddReview: (review: Omit<Review, 'id' | 'date'>) => void
-}
 
-function Navbar({ onAddReview }: NavbarProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+function Navbar() {
 
   return (
     <>
@@ -28,22 +21,9 @@ function Navbar({ onAddReview }: NavbarProps) {
             <Nav.Link as={Link} to="/profile" className="navbar-link text-decoration-none fw-medium px-3 py-2 rounded-pill text-dark">
               Profil
             </Nav.Link>
-
-            <Button
-              className="navbar-button p-2"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Dodaj komentar
-            </Button>
           </Nav>
         </Container>
       </BSNavbar>
-
-      <AddReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onAddReview={onAddReview}
-      />
     </>
   )
 }

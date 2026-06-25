@@ -1,109 +1,144 @@
 import { useState } from 'react'
-import type { Review } from '../../App'
-import './HomePage.css'
+import { Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap'
+import { useNavigate } from 'react-router'
+import { searchMovies } from '../../services/api'
+import type { MovieSearchResult } from '../../services/api'
 
-type HomePageProps = {
-  reviews: Review[]
+type MoviePosterProps = {
+  src: string
+  title: string
 }
 
-function HomePage({ reviews }: HomePageProps) {
-  const [titleFilter, setTitleFilter] = useState('')
-  const [authorFilter, setAuthorFilter] = useState('')
-  const [minRating, setMinRating] = useState('')
-  const [maxRating, setMaxRating] = useState('')
+function MoviePoster({ src, title }: MoviePosterProps) {
+  const [hasImageError, setHasImageError] = useState(false)
 
-  const filteredReviews = reviews.filter((review) => {
-    const matchesTitle = review.title
-      .toLowerCase()
-      .includes(titleFilter.toLowerCase())
+  if (!src || hasImageError) {
+    return (
+      <div className="movie-card-placeholder d-flex align-items-center justify-content-center">
+        Nema postera
+      </div>
+    )
+  }
 
-    const matchesAuthor = review.author
-      .toLowerCase()
-      .includes(authorFilter.toLowerCase())
+  return (
+    <Card.Img
+      variant="top"
+      src={src}
+      alt={title}
+      className="movie-card-poster"
+      onError={() => setHasImageError(true)}
+    />
+  )
+}
 
-    const matchesMinRating =
-      minRating === '' || review.rating >= Number(minRating)
+function HomePage() {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [movies, setMovies] = useState<MovieSearchResult[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-    const matchesMaxRating =
-      maxRating === '' || review.rating <= Number(maxRating)
+  const navigate = useNavigate()
 
-    return matchesTitle && matchesAuthor && matchesMinRating && matchesMaxRating
-  })
+  async function handleSearch(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    if (!searchTerm.trim()) {
+      return
+    }
+
+    try {
+      setIsLoading(true)
+      setError('')
+      setMovies([])
+
+      const results = await searchMovies(searchTerm)
+
+      setMovies(results)
+    } catch {
+      setError('Nije pronađen nijedan film s tim naslovom.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <main className="homepage">
-      <section className="homepage-header">
-        <h1>Najnoviji reviewi</h1>
-        <p>
-          Pregledaj komentare korisnika i pronađi preporuke za filmove i serije.
-        </p>
-      </section>
+      <Container className="py-5">
+        <section className="homepage-hero text-center mx-auto mb-5">
+          <h1 className="display-4 fw-bold mb-3">
+            Pronađi film ili seriju
+          </h1>
 
-      <section className="review-filters">
-        <input
-          type="text"
-          placeholder="Pretraži po naslovu"
-          value={titleFilter}
-          onChange={(event) => setTitleFilter(event.target.value)}
-        />
+          <p className="homepage-description mb-4">
+            Pretraži filmove i serije, pogledaj osnovne podatke i pročitaj
+            komentare drugih korisnika.
+          </p>
 
-        <input
-          type="text"
-          placeholder="Pretraži po korisniku"
-          value={authorFilter}
-          onChange={(event) => setAuthorFilter(event.target.value)}
-        />
+          <Form onSubmit={handleSearch} className="homepage-search mx-auto">
+            <div className="d-flex flex-column flex-md-row gap-2">
+              <Form.Control
+                type="text"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Npr. Interstellar"
+                className="rounded-pill px-4 py-3"
+              />
 
-        <div className="rating-range">
-          <input
-            type="number"
-            min="0"
-            max="5"
-            step="0.5"
-            placeholder="Ocjena od"
-            value={minRating}
-            onChange={(event) => setMinRating(event.target.value)}
-          />
+              <Button
+                type="submit"
+                variant="dark"
+                className="rounded-pill px-4 fw-semibold"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Pretražujem...' : 'Pretraži'}
+              </Button>
+            </div>
+          </Form>
+        </section>
 
-          <input
-            type="number"
-            min="0"
-            max="5"
-            step="0.5"
-            placeholder="Ocjena do"
-            value={maxRating}
-            onChange={(event) => setMaxRating(event.target.value)}
-          />
-        </div>
-      </section>
+        {isLoading && (
+          <div className="text-center py-4">
+            <Spinner animation="border" variant="light" />
+          </div>
+        )}
 
-      <section className="review-list">
-        {filteredReviews.length > 0 ? (
-          filteredReviews.map((review) => (
-            <article key={review.id} className="review-card">
-              <div className="review-top">
-                <div>
-                  <h2 className="review-title">{review.title}</h2>
-
-                  <div className="review-meta">
-                    <span>{review.author}</span>
-                    <span> • </span>
-                    <span>{review.date}</span>
-                  </div>
-                </div>
-
-                <span className="review-rating">{review.rating}/5</span>
-              </div>
-
-              <p className="review-text">{review.text}</p>
-            </article>
-          ))
-        ) : (
-          <p className="no-reviews">
-            Nema osvrta koji odgovaraju odabranim filterima.
+        {error && (
+          <p className="text-center text-light bg-dark bg-opacity-50 rounded-4 p-3 mx-auto homepage-message">
+            {error}
           </p>
         )}
-      </section>
+
+        {movies.length > 0 && (
+          <Row className="g-4">
+            {movies.map((movie) => (
+              <Col key={movie.imdbId} xs={12} sm={6} lg={4} xl={3}>
+                <Card className="movie-card h-100 border-0 rounded-4 overflow-hidden">
+                  <MoviePoster src={movie.poster} title={movie.title} />
+
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title className="fw-bold">
+                      {movie.title}
+                    </Card.Title>
+
+                    <Card.Text className="text-muted mb-4">
+                      {movie.year} · {movie.type}
+                    </Card.Text>
+
+                    <Button
+                      type="button"
+                      variant="dark"
+                      className="rounded-pill mt-auto fw-semibold"
+                      onClick={() => navigate(`/movie/${movie.imdbId}`)}
+                    >
+                      Otvori film
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Container>
     </main>
   )
 }

@@ -1,47 +1,76 @@
 import { useState } from 'react'
 import type { SubmitEvent } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
-import type { Review } from '../App'
+import { createReview } from '../services/api'
+import type { MovieDetails, Review } from '../services/api'
 
 type AddReviewModalProps = {
   isOpen: boolean
   onClose: () => void
-  onAddReview: (review: Omit<Review, 'id' | 'date'>) => void
+  movie: MovieDetails
+  onReviewCreated: (review: Review) => void
 }
 
 function AddReviewModal({
   isOpen,
   onClose,
-  onAddReview,
+  movie,
+  onReviewCreated,
 }: AddReviewModalProps) {
-  const [title, setTitle] = useState('')
   const [rating, setRating] = useState('')
   const [text, setText] = useState('')
+  const [error, setError] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (!title || !rating || !text) {
+    if (!rating || !text.trim()) {
+      setError('Unesi ocjenu i komentar.')
       return
     }
 
-    onAddReview({
-      title,
-      author: 'Marko Kovač',
-      rating: Number(rating),
-      text,
-    })
+    try {
+      setIsSaving(true)
+      setError('')
 
-    setTitle('')
-    setRating('')
-    setText('')
+      const newReview = await createReview({
+        imdbId: movie.imdbId,
+        movieTitle: movie.title,
+        movieYear: movie.year,
+        moviePoster: movie.poster,
+        movieGenre: movie.genre,
+        imdbRating: movie.imdbRating,
+        authorName: 'Marko Kovač',
+        rating: Number(rating),
+        text: text.trim(),
+      })
+
+      onReviewCreated(newReview)
+
+      setRating('')
+      setText('')
+      onClose()
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('Greška kod spremanja komentara.')
+      }
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  function handleClose() {
+    setError('')
     onClose()
   }
 
   return (
     <Modal
       show={isOpen}
-      onHide={onClose}
+      onHide={handleClose}
       centered
       dialogClassName="add-review-modal"
     >
@@ -53,19 +82,15 @@ function AddReviewModal({
         </Modal.Header>
 
         <Modal.Body className="d-flex flex-column gap-3 px-4 py-3">
-          <Form.Group controlId="title">
-            <Form.Label className="fw-semibold">
-              Naslov filma ili serije
-            </Form.Label>
+          <div className="bg-light rounded-4 p-3">
+            <p className="fw-semibold mb-1">
+              {movie.title}
+            </p>
 
-            <Form.Control
-              type="text"
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-              placeholder="Npr. Interstellar"
-              className="rounded-4 py-3 px-3"
-            />
-          </Form.Group>
+            <p className="text-muted small mb-0">
+              {movie.year} · {movie.genre}
+            </p>
+          </div>
 
           <Form.Group controlId="rating">
             <Form.Label className="fw-semibold">
@@ -98,14 +123,21 @@ function AddReviewModal({
               className="rounded-4 py-3 px-3"
             />
           </Form.Group>
+
+          {error && (
+            <p className="text-danger small mb-0">
+              {error}
+            </p>
+          )}
         </Modal.Body>
 
-        <Modal.Footer className="border-0 pt-0 flex-column flex-sm-row gap-2">
+        <Modal.Footer className="border-0 pt-0 flex-column flex-sm-row gap-2 px-4 pb-4">
           <Button
             type="button"
             variant="light"
-            className="w-sm-auto rounded-pill px-4 py-2 fw-semibold"
-            onClick={onClose}
+            className="add-review-modal-button rounded-pill px-4 py-2 fw-semibold"
+            onClick={handleClose}
+            disabled={isSaving}
           >
             Odustani
           </Button>
@@ -113,9 +145,10 @@ function AddReviewModal({
           <Button
             type="submit"
             variant="dark"
-            className="w-sm-auto rounded-pill px-4 py-2 fw-semibold bg-primary"
+            className="add-review-modal-button rounded-pill px-4 py-2 fw-semibold bg-primary border-0"
+            disabled={isSaving}
           >
-            Objavi komentar
+            {isSaving ? 'Spremam...' : 'Objavi komentar'}
           </Button>
         </Modal.Footer>
       </Form>
