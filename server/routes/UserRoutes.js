@@ -14,7 +14,7 @@ function createUserRoutes({ users, jwt_protection }) {
           return res.status(404).json({ error: 'Korisnik nije pronađen' });
         }
       
-        res.json({user});
+        res.json( user );
       } catch (e) {
         res.status(500).json({ error: e.message });
       }

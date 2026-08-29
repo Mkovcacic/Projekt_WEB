@@ -72,7 +72,7 @@ app.use(express.urlencoded({ extended: false }));
       createAuthRoutes(
         { users, hashPassword, authenticateToken, jwtSignAsync, secret, jwt_protection }
       ));
-    app.use('/api/movies', createMovieRoutes());
+    app.use('/api/movie', createMovieRoutes());
     app.use('/api/reviews', createReviewRoutes({ reviews, jwt_protection, io }));
     app.use('/api/user', createUserRoutes({ users, jwt_protection }));
 
