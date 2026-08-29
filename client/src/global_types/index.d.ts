@@ -1,18 +1,78 @@
 type Movie = {
-  imdbID : string,
-  Title : string,
-  Poster : string | null,
-  Rated : string | null,
-  Runtime : string | null,
-  imdbRating : string,
-  Year : string,
-  Released : string | null,
-  Genre : string,
-  imdbVotes : string | null,
-  Metascore : string | null,
-  Plot : string | null,
-  Director : string | null,
-  Actors : string | null,
-  Writer : string | null,
-  BoxOffice : string | null
+  imdbID : string
+  Title : string
+  Year : string
+  Genre : string
+  Director : string
+  Actors : string
+  Plot : string
+  imdbRating : string
+  Poster : string
+  Rated : string
+  Runtime : string
+  Released : string
+  imdbVotes : string
+  Metascore : string
+  Writer : string
+  BoxOffice : string
+}
+
+type Review = {
+  _id: string
+  imdbID: string
+  movieTitle: string
+  movieYear: string
+  moviePoster: string
+  movieGenre: string
+  imdbRating: string
+  authorName: string
+  rating: number
+  text: string
+  createdAt: string
+}
+
+type AuthResponse = {
+  message: string
+  token: string
+}
+
+type CreateReviewData = {
+  imdbID: string
+  movieTitle: string
+  movieYear: string
+  moviePoster: string
+  movieGenre: string
+  imdbRating: string
+  authorName: string
+  rating: number
+  text: string
+}
+
+type SignupData = {
+  name: string
+  username: string
+  email: string
+  password: string
+  favGenre: string
+}
+
+type LoginData = {
+  username: string
+  password: string
+}
+
+type CurrentUser = {
+  _id: string
+  name: string
+  username: string
+  email: string
+  favGenre: string
+  createdAt: string
+}
+
+type UpdateUserData = {
+  name: string
+  username: string
+  email: string
+  favGenre: string
 }

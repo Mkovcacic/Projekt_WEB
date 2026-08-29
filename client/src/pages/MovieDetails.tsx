@@ -1,51 +1,50 @@
-/*import { useParams } from "react-router";*/
-import { Container, Row, Col, Badge} from "react-bootstrap";
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { Container, Row, Col, Badge, Alert, Spinner} from "react-bootstrap";
+import { getMovieDetails } from '../services/api';
+import CommentSection from '../components/CommentSection';
 
 function MovieDetails() {
-  /*const { imdbID } = useParams();*/
+  const { imdbID } = useParams()
 
-  const movie = {
-  "Title": "Spider-Man: Brand New Day",
-  "Year": "2026",
-  "Rated": "PG-13",
-  "Released": "31 Jul 2026",
-  "Runtime": "145 min",
-  "Genre": "Action, Adventure, Sci-Fi",
-  "Director": "Destin Daniel Cretton",
-  "Writer": "Chris McKenna, Erik Sommers, Stan Lee",
-  "Actors": "Tom Holland, Zendaya, Mark Ruffalo",
-  "Plot": "A forgotten Peter Parker lives alone as a full-time Spider-Man until mounting pressure triggers a dangerous change and a powerful new enemy emerges.",
-  "Language": "English",
-  "Country": "United States, Canada, United Kingdom, Germany",
-  "Awards": "1 nomination total",
-  "Poster": "https://m.media-amazon.com/images/M/MV5BOWNjYWM3NWItOGE0ZS00MWRjLThiZWEtYjc4ZmNmMmU5ZTVmXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
-  "Ratings": [
-    {
-      "Source": "Internet Movie Database",
-      "Value": "8.1/10"
-    },
-    {
-      "Source": "Metacritic",
-      "Value": "66/100"
+  const [movie, setMovie] = useState<Movie | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!imdbID) {
+      return
     }
-  ],
-  "Metascore": "66",
-  "imdbRating": "8.1",
-  "imdbVotes": "183,571",
-  "imdbID": "tt22084616",
-  "Type": "movie",
-  "DVD": "N/A",
-  "BoxOffice": "$655,088,528",
-  "Production": "N/A",
-  "Website": "N/A",
-  "Response": "True"
-};
-  if (!movie) {
+
+    const loadMovie = async () => {
+      try {
+        const data = await getMovieDetails(imdbID)
+        setMovie(data)
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message)
+        }
+      }
+    }
+
+    loadMovie()
+  }, [imdbID])
+
+  if (error) {
     return (
       <Container className="py-5">
-        <h2>Movie not found</h2>
+        <Alert variant="danger">
+          {error}
+        </Alert>
       </Container>
-    );
+    )
+  }
+
+  if (!movie) {
+    return (
+      <Container className="py-5 text-center">
+        <Spinner animation="border" />
+      </Container>
+    )
   }
 
   return (
@@ -144,6 +143,7 @@ function MovieDetails() {
           </Row>
         </Col>
       </Row>
+      <CommentSection imdbID={movie.imdbID}/>
     </Container>
   );
 }

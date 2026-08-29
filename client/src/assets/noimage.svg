@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Icon: image-error-filled
+  Set: TDesign Icons
+  Author: TDesign (https://github.com/Tencent/tdesign-icons)
+  License: MIT (https://github.com/Tencent/tdesign-icons/blob/main/LICENSE)
+  Source: https://iconify.design
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 24 24"
+     width="24"
+     height="24">
+  <title>Image Not Found Icon</title>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:cc="http://creativecommons.org/ns#">
+      <cc:Work rdf:about="">
+        <dc:title>Image Not Found Icon</dc:title>
+        <dc:description>A minimalist icon representing a missing or unavailable image, featuring a crossed-out photo symbol. Ideal for use in web design, error messages, or placeholder graphics.</dc:description>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>TDesign</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:source>https://github.com/Tencent/tdesign-icons</dc:source>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>TDesign</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <cc:license rdf:resource="https://github.com/Tencent/tdesign-icons/blob/main/LICENSE"/>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>missing-image</rdf:li>
+            <rdf:li>image-not-found</rdf:li>
+            <rdf:li>unavailable-image</rdf:li>
+            <rdf:li>broken-image</rdf:li>
+            <rdf:li>placeholder-icon</rdf:li>
+            <rdf:li>error-icon</rdf:li>
+            <rdf:li>photo-not-available</rdf:li>
+            <rdf:li>file-missing</rdf:li>
+            <rdf:li>image-error</rdf:li>
+            <rdf:li>no-image</rdf:li>
+            <rdf:li>photo-placeholder</rdf:li>
+            <rdf:li>image-placeholder</rdf:li>
+            <rdf:li>unavailable-file</rdf:li>
+            <rdf:li>broken-file</rdf:li>
+            <rdf:li>missing-file</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="https://github.com/Tencent/tdesign-icons/blob/main/LICENSE">
+        <dc:title>MIT (MIT)</dc:title>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <path fill="currentColor" d="M22 2H2v20h11.232a6.5 6.5 0 0 1-.732-3c0-1.9.816-3.61 2.116-4.799L9 8.586l-5 5V4h16v8.576a6.5 6.5 0 0 1 2 .656z"/><path fill="currentColor" d="M16 5.25a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5m5.829 17.993l1.414-1.415L20.415 19l2.828-2.828l-1.414-1.415L19 17.586l-2.828-2.829l-1.414 1.415L17.586 19l-2.828 2.828l1.414 1.415L19 20.414z"/>
+</svg>
