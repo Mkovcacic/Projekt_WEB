@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 
 import { login } from '../services/api'
@@ -7,6 +7,9 @@ import { setToken } from '../services/auth'
 
 function Login() {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const from = location.state?.from
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -29,7 +32,7 @@ function Login() {
 
       setToken(result.token)
 
-      navigate('/')
+      navigate(from || '/', { replace: true })
     } catch (e) {
       if (e instanceof Error) {
         setError(e.message)
@@ -38,6 +41,10 @@ function Login() {
       setLoading(false)
     }
   }
+
+  const handleCancel = () => {
+    navigate(from || '/', { replace: true })
+  }  
 
   return (
     <Container className="py-5">
@@ -78,6 +85,7 @@ function Login() {
                   />
                 </Form.Group>
 
+                <div className="d-flex gap-2">
                 <Button
                   type="submit"
                   className="w-100"
@@ -85,6 +93,16 @@ function Login() {
                 >
                   {loading ? 'Logging in...' : 'Login'}
                 </Button>
+
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Odustani
+                </Button>
+                </div>
+
               </Form>
 
               <div className="text-center mt-3">
@@ -92,7 +110,7 @@ function Login() {
                   Don't have an account?{' '}
                 </span>
 
-                <Link to="/signup">
+                <Link to="/signup" state={{ from }}>
                   Sign up
                 </Link>
               </div>

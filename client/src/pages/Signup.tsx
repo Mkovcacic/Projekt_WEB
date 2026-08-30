@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 
 import { signup } from '../services/api'
@@ -7,6 +7,9 @@ import { setToken } from '../services/auth'
 
 function Signup() {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const from = location.state?.from
 
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
@@ -18,7 +21,7 @@ function Signup() {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
+    event: React.SubmitEvent<HTMLFormElement>
   ) => {
     event.preventDefault()
 
@@ -36,7 +39,7 @@ function Signup() {
 
       setToken(result.token)
 
-      navigate('/')
+      navigate(from || '/', { replace: true })
     } catch (e) {
       if (e instanceof Error) {
         setError(e.message)
@@ -44,6 +47,10 @@ function Signup() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleCancel = () => {
+    navigate(from || '/', { replace: true })
   }
 
   return (
@@ -121,6 +128,8 @@ function Signup() {
                   </Form.Select>
                 </Form.Group>
 
+
+                <div className="d-flex gap-2">
                 <Button
                   type="submit"
                   className="w-100"
@@ -128,6 +137,15 @@ function Signup() {
                 >
                   {loading ? 'Creating account...' : 'Sign up'}
                 </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleCancel}
+                >
+                  Odustani
+                </Button>
+                </div>
+
               </Form>
 
               <div className="text-center mt-3">
@@ -135,7 +153,7 @@ function Signup() {
                   Already have an account?{' '}
                 </span>
 
-                <Link to="/login">
+                <Link to="/login" state={{ from: location }}>
                   Login
                 </Link>
               </div>

@@ -8,7 +8,7 @@ function SearchResults() {
   const [searchParams] = useSearchParams()
   const title = searchParams.get('title') || ''
 
-  const [movies, setMovies] = useState<Movie[]>([])
+  const [movies, setMovies] = useState<MovieSearchResult[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

@@ -1,30 +1,32 @@
 type Movie = {
-  imdbID : string
-  Title : string
-  Year : string
-  Genre : string
-  Director : string
-  Actors : string
-  Plot : string
-  imdbRating : string
-  Poster : string
-  Rated : string
-  Runtime : string
-  Released : string
-  imdbVotes : string
-  Metascore : string
-  Writer : string
-  BoxOffice : string
+  imdbID: string
+  Title: string
+  Year: string
+  Genre: string
+  Director: string
+  Actors: string
+  Plot: string
+  imdbRating: string
+  Poster: string
+  Rated: string
+  Runtime: string
+  Released: string
+  imdbVotes: string
+  Metascore: string
+  Writer: string
+  BoxOffice: string
+}
+
+type MovieSearchResult = {
+  imdbID: string
+  Title: string
+  Year: string
+  Poster: string
 }
 
 type Review = {
   _id: string
   imdbID: string
-  movieTitle: string
-  movieYear: string
-  moviePoster: string
-  movieGenre: string
-  imdbRating: string
   authorName: string
   rating: number
   text: string
@@ -38,12 +40,6 @@ type AuthResponse = {
 
 type CreateReviewData = {
   imdbID: string
-  movieTitle: string
-  movieYear: string
-  moviePoster: string
-  movieGenre: string
-  imdbRating: string
-  authorName: string
   rating: number
   text: string
 }

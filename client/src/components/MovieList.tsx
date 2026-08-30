@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {Card, Col, Row} from "react-bootstrap";
 import noImageFallback from '../assets/noimage.svg';
 
-function MovieCard({ movie }: { movie: Movie }) {
+function MovieCard({ movie }: { movie: Movie | MovieSearchResult }) {
 
   return (
     <Link
@@ -26,9 +26,11 @@ function MovieCard({ movie }: { movie: Movie }) {
             </Card.Title>
 
             <div className="d-flex align-items-center gap-3 small mt-auto">
-              <span className="fw-semibold">
-                ⭐ {movie.imdbRating}
-              </span>
+              {'imdbRating' in movie && movie.imdbRating && (
+                <span className="fw-semibold">
+                  ⭐ {movie.imdbRating}
+                </span>
+              )}
               <span className="text-secondary">
                 {movie.Year}
               </span>
@@ -39,7 +41,7 @@ function MovieCard({ movie }: { movie: Movie }) {
   );
 }
 
-function MovieList({ movies }: { movies : Movie[] }) {
+function MovieList({ movies }: { movies : (Movie | MovieSearchResult)[] }) {
   return (
     <Row xs={2} sm={3} md={4} lg={5} xl={6} className="g-3">
       {movies.map((movie) => (

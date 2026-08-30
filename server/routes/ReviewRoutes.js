@@ -41,7 +41,7 @@ function createReviewRoutes({ reviews, jwt_protection, io }) {
         const review = {
           imdbID: req.body.imdbID,
           authorId: req.user._id,
-          authorName: req.user.name,
+          authorName: req.user.username,
           rating: Number(req.body.rating),
           text: req.body.text,
           createdAt: new Date(),
@@ -93,7 +93,7 @@ function createReviewRoutes({ reviews, jwt_protection, io }) {
         }
 
         io.to(`movie:${result.imdbID}`).emit('review-updated', result);
-        res.json({ message: 'Recenzija uspjesno azurirana' });
+        res.json(result);
       } catch (e) {
         res.status(500).json({ error: e.message });
       }

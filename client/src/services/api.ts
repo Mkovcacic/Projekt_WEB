@@ -114,7 +114,7 @@ export async function createReview(review: CreateReviewData): Promise<Review> {
   return data
 }
 
-export async function updateReview(id: string, rating: number, text: string): Promise<void> {
+export async function updateReview(id: string, rating: number, text: string): Promise<Review> {
   const token = getToken()
 
   const response = await fetch(`${API_URL}/api/reviews/update/${encodeURIComponent(id)}`, {
@@ -131,6 +131,8 @@ export async function updateReview(id: string, rating: number, text: string): Pr
   if (!response.ok) {
     throw new Error(data.error || data.message || 'Greška kod uređivanja recenzije')
   }
+
+  return data
 }
 
 export async function deleteReview(id: string): Promise<void> {
