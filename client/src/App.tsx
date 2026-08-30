@@ -4,6 +4,7 @@ import { Layout } from "./pages/Layout.tsx";
 import { ProtectedRoute } from "./ProtectedRoutes.tsx";
 
 import Home from "./pages/Home.tsx";
+import About from "./pages/About.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import Profile from './pages/Profile'
@@ -23,6 +24,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/movie/:imdbID" element={<MovieDetails />} />
+          <Route path="/about" element={<About />} />
           <Route path="/profile" element={ <ProtectedRoute> <Profile /> </ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
         </Route>
