@@ -38,6 +38,54 @@ export async function login(data: LoginData): Promise<AuthResponse> {
 
 // Movie routes
 
+export async function getNewMovies(): Promise<TMDBMovie[]> {
+  const response = await fetch(`${API_URL}/api/movie/new`)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja novih filmova')
+  }
+
+  return data
+}
+
+export async function getPopularMovies(): Promise<TMDBMovie[]> {
+  const response = await fetch(`${API_URL}/api/movie/popular`)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja popularnih filmova')
+  }
+
+  return data
+}
+
+export async function getTopRatedMovies(): Promise<TMDBMovie[]> {
+  const response = await fetch(`${API_URL}/api/movie/top-rated`)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja najbolje ocijenjenih filmova')
+  }
+
+  return data
+}
+
+export async function getMovieDetailsByTmdbID(tmdbID: string): Promise<Movie> {
+  const response = await fetch(`${API_URL}/api/movie/tmdb/${tmdbID}`)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja filma')
+  }
+
+  return data
+}
+
 export async function searchMovies(title: string): Promise<Movie[]> {
   const response = await fetch(
     `${API_URL}/api/movie/search?title=${encodeURIComponent(title)}`

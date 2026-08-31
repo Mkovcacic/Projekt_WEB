@@ -24,6 +24,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/movie/:imdbID" element={<MovieDetails />} />
+          <Route path="/movie/tmdb/:tmdbID" element={<MovieDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={ <ProtectedRoute> <Profile /> </ProtectedRoute>} />
           <Route path="/search" element={<SearchResults />} />
