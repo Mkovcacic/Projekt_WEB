@@ -1,51 +1,84 @@
-import { Link } from 'react-router'
-import { useState } from 'react'
-import { Navbar as BSNavbar, Nav, Button, Container } from 'react-bootstrap'
-import AddReviewModal from './AddReviewModal'
-import type { Review } from '../App'
-import './Navbar.css'
+import { useState, useEffect } from 'react'
+import { Navbar, Form, Button, Row, Col, Container, Nav } from 'react-bootstrap';
+import { Search } from 'react-bootstrap-icons';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { isLoggedIn, logout } from '../services/auth';
 
-type NavbarProps = {
-  onAddReview: (review: Omit<Review, 'id' | 'date'>) => void
-}
+function AppNavbar() {
+  const navigate = useNavigate()
+  const location = useLocation()
 
-function Navbar({ onAddReview }: NavbarProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [title, setTitle] = useState('')
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn())
+
+  useEffect(() => {
+    setLoggedIn(isLoggedIn());
+  }, [location]);
+
+  const handleLogout = () => {
+    logout()
+    setLoggedIn(false)
+    navigate('/')
+  }
+
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!title.trim()) {
+      return
+    }
+
+    navigate(`/search?title=${encodeURIComponent(title)}`)
+  }
 
   return (
-    <>
-      <BSNavbar className="navbar-custom navbar-expand-md position-static position-md-sticky top-0 w-100 py-4 px-4 p-md-3">
-        <Container className="navbar-content mx-auto d-flex flex-md-row flex-column border border-secondary rounded-4 shadow-sm px-3 py-3 bg-secondary">
-          <BSNavbar.Brand as={Link} to="/" className="navbar-brand text-primary fs-3 fw-bold fw-extrabold ls-tight d-flex justify-content-center">
-            CineForum
-          </BSNavbar.Brand>
-
-          <Nav className="navbar-menu d-flex justify-content-center flex-wrap gap-3 gap-md-4">
-            <Nav.Link as={Link} to="/" className="navbar-link text-decoration-none fw-medium px-3 py-2 rounded-pill text-dark">
-              Homepage
-            </Nav.Link>
-
-            <Nav.Link as={Link} to="/profile" className="navbar-link text-decoration-none fw-medium px-3 py-2 rounded-pill text-dark">
-              Profil
-            </Nav.Link>
-
-            <Button
-              className="navbar-button p-2"
-              onClick={() => setIsModalOpen(true)}
-            >
-              Dodaj komentar
-            </Button>
+    <Navbar expand="lg" bg="dark" data-bs-theme="dark">
+      <Container>
+        <Navbar.Brand href="/">
+            <img alt="logo" src="../movie-projector.png"
+            width="30" height="30" className="d-inline-block align-top"
+            />{' '}CineForum
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav" className='mt-1'>
+          <Nav className=" gap-lg-3 text-start"> 
+            {loggedIn ? 
+              (
+              <>
+                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                <div className='mt-1'>
+                  <Button variant='outline-danger w-auto' size="sm" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </div>
+              </>
+              ) :
+              (
+                <Nav.Link as={Link} to="/login" state={{ from: location }}>Login</Nav.Link>
+              )
+            }
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
+            <Row className="w-100">
+              <Col xs={12} md={7} lg={12}>
+                <Form className="d-flex gap-1" onSubmit={handleSubmit}>
+                  <Form.Control
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <Button variant="outline-success" type="submit" aria-label="Search">
+                    <Search />
+                  </Button>
+                </Form>
+              </Col>
+            </Row>
           </Nav>
-        </Container>
-      </BSNavbar>
-
-      <AddReviewModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onAddReview={onAddReview}
-      />
-    </>
-  )
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default AppNavbar;

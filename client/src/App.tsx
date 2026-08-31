@@ -1,108 +1,37 @@
-import { useState, useEffect } from 'react'
-import { Route, Routes } from 'react-router'
-import { OrbitProgress } from "react-loading-indicators"
+/*import { useState } from 'react'*/
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "./pages/Layout.tsx";
+import { ProtectedRoute } from "./ProtectedRoutes.tsx";
 
-import Background from './components/Background'
-import Navbar from './components/Navbar'
-import HomePage from './pages/HomePage/HomePage'
-import ProfilePage from './pages/ProfilePage/ProfilePage'
+import Home from "./pages/Home.tsx";
+import About from "./pages/About.tsx";
+import Login from "./pages/Login.tsx";
+import Signup from "./pages/Signup.tsx";
+import Profile from './pages/Profile'
+import MovieDetails from "./pages/MovieDetails.tsx";
+import SearchResults from "./pages/SearchResults.tsx";
 
-export type Review = {
-  id: number
-  title: string
-  author: string
-  rating: number
-  date: string
-  text: string
-}
 
-export type UserProfile = {
-  name: string
-  username: string
-  memberSince: string
-  fav_genre : string
-}
-
-const initialReviews: Review[] = [
-  {
-    id: 1,
-    title: 'Interstellar',
-    author: 'Ana Kovač',
-    rating: 4.5,
-    date: '12. 5. 2026.',
-    text: 'Odličan film, emotivan i vizualno impresivan.',
-  },
-  {
-    id: 2,
-    title: 'Breaking Bad',
-    author: 'Marko Marić',
-    rating: 5,
-    date: '10. 5. 2026.',
-    text: 'Jedna od najboljih serija koje sam gledao.',
-  },
-  {
-    id: 3,
-    title: 'The Batman',
-    author: 'Ivana Horvat',
-    rating: 4,
-    date: '8. 5. 2026.',
-    text: 'Mračna atmosfera i vrlo dobar prikaz Batmana.',
-  },
-]
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css'
 
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState<Review[]>(initialReviews)
-
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-  name: 'Marko Kovač',
-  username: 'marko_k',
-  memberSince: 'Član od svibnja 2026.',
-  fav_genre: 'drama'
-  })
-
-  useEffect(() => {
-    // simulacija učitavanja
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="loader">
-        <OrbitProgress 
-          color={["#cfd4cf", "#979c97", "#707270", "#848684"]} 
-          speedPlus={2} 
-          size="medium" 
-          easing="ease-in-out"
-        />
-      </div>
-    );
-  }
-
-
-  function addReview(newReview: Omit<Review, 'id' | 'date'>) {
-    const review: Review = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString('hr-HR'),
-      ...newReview,
-    }
-
-    setReviews((prevReviews) => [review, ...prevReviews])
-  }
 
   return (
-    <>
-      <Navbar onAddReview={addReview} />
-
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage reviews={reviews} />} />
-        <Route path="/profile" element={ <ProfilePage reviews={reviews} userProfile={userProfile} onUpdateProfile={setUserProfile}
-        />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/movie/:imdbID" element={<MovieDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/profile" element={ <ProtectedRoute> <Profile /> </ProtectedRoute>} />
+          <Route path="/search" element={<SearchResults />} />
+        </Route>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
       </Routes>
-    </>
+    </BrowserRouter>
   )
 }
 
