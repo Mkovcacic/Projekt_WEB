@@ -1,33 +1,44 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Container, Row, Col, Badge, Alert, Spinner} from "react-bootstrap";
-import { getMovieDetails } from '../services/api';
+import { getMovieDetails, getMovieDetailsByTmdbID } from '../services/api';
 import CommentSection from '../components/CommentSection';
 
 function MovieDetails() {
-  const { imdbID } = useParams()
+  const { imdbID, tmdbID } = useParams()
 
+  const [_, setLoading] = useState(true)
   const [movie, setMovie] = useState<Movie | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!imdbID) {
-      return
-    }
-
     const loadMovie = async () => {
       try {
-        const data = await getMovieDetails(imdbID)
+        setLoading(true)
+        setError(null)
+      
+        let data: Movie
+      
+        if (tmdbID) {
+          data = await getMovieDetailsByTmdbID(tmdbID)
+        } else if (imdbID) {
+          data = await getMovieDetails(imdbID)
+        } else {
+          throw new Error('ID filma nije pronađen')
+        }
+      
         setMovie(data)
       } catch (e) {
         if (e instanceof Error) {
           setError(e.message)
         }
+      } finally {
+        setLoading(false)
       }
     }
-
+  
     loadMovie()
-  }, [imdbID])
+  }, [imdbID, tmdbID])
 
   if (error) {
     return (
