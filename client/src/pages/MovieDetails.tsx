@@ -79,7 +79,7 @@ function MovieDetails() {
               {movie.Title}
             </h1>
             
-            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3 justify-content-xs-center justify-content-lg-start">
+            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3 justify-content-sm-center justify-content-mdlg-start">
               <span>{movie.Year}</span>
               <span>•</span>
               <span>{movie.Rated}</span>
@@ -89,7 +89,7 @@ function MovieDetails() {
               <span>{movie.Released}</span>
             </div>
             
-            <div className="d-flex flex-wrap gap-2 justify-content-xs-center justify-content-lg-start">
+            <div className="d-flex flex-wrap gap-2 justify-content-sm-center justify-content-md-start">
               {movie.Genre.split(", ").map((genre) => (
                 <Badge
                   bg="dark"
@@ -102,7 +102,7 @@ function MovieDetails() {
             </div>
           </div>
             
-          <div className="d-flex flex-wrap gap-5 py-3 border-top border-bottom mb-4 justify-content-xs-center justify-content-lg-start">
+          <div className="d-flex flex-wrap gap-5 py-3 border-top border-bottom mb-4 justify-content-sm-center justify-content-md-start">
             <div>
               <div className="text-secondary small mb-1">
                 IMDb rating
