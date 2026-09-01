@@ -58,7 +58,7 @@ function createAuthRoutes({
         const user = await users.findOne({ username });
 
         if (!user) {
-          return res.status(401).json({ message: 'Pristup odbijen' });
+          return res.status(401).json({ message: 'Krivo korisnicko ime ili lozinka' });
         }
 
         const isPasswordCorrect = await authenticateToken(password, user.salt, user.passwordHash);
