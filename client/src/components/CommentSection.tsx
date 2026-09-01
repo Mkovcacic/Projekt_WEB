@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Alert, Button, Card, Form, Spinner } from 'react-bootstrap'
-import { createReview, getCurrentUser, getMovieReviews, deleteReview } from '../services/api'
+import { Alert, Button, Card, Spinner, Accordion } from 'react-bootstrap'
+import { PersonCircle, StarFill, PlusCircleFill } from 'react-bootstrap-icons'
+import { Link } from 'react-router-dom'
+import { getCurrentUser, getMovieReviews, deleteReview } from '../services/api'
 import { isLoggedIn } from '../services/auth'
 import EditReviewModal from './EditReviewModal'
+import CreateReviewModal from './CreateReviewModal'
 
 function CommentSection({ imdbID }: { imdbID: string }) {
   const [reviews, setReviews] = useState<Review[]>([])
-  const [rating, setRating] = useState(10)
-  const [text, setText] = useState('')
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [submitting, setSubmitting] = useState(false)
+  
   const [error, setError] = useState<string | null>(null)
 
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
@@ -52,37 +54,6 @@ function CommentSection({ imdbID }: { imdbID: string }) {
     loadCurrentUser()
   }, [])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    if (!text.trim()) {
-      setError('Recenzija ne može biti prazna')
-      return
-    }
-
-    try {
-      setSubmitting(true)
-      setError(null)
-
-      const newReview = await createReview({
-        imdbID,
-        rating,
-        text
-      })
-
-      setReviews((currentReviews) => [newReview, ...currentReviews])
-
-      setRating(10)
-      setText('')
-    } catch (e) {
-      if (e instanceof Error) {
-        setError(e.message)
-      }
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
   const handleReviewUpdated = (updatedReview: Review) => {
     setReviews((currentReviews) =>
       currentReviews.map((review) =>
@@ -107,127 +78,131 @@ function CommentSection({ imdbID }: { imdbID: string }) {
     }
   }
 
-  return (
-    <div className="mt-5">
-      <h3 className="mb-4">Reviews</h3>
+return (
+<div className="mt-5">
+  <Accordion>
+    <Accordion.Item eventKey="0">
+      <Accordion.Header>
+        <span className="fw-bold">
+          Reviews
+        </span>
+      </Accordion.Header>
 
-      {isLoggedIn() && (
-        <Card className="mb-4">
-          <Card.Body>
-            <Card.Title className="mb-3">
-              Add review
-            </Card.Title>
-
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>Rating</Form.Label>
-
-                <Form.Select
-                  value={rating}
-                  onChange={(e) => setRating(Number(e.target.value))}
-                >
-                  {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((value) => (
-                    <option key={value} value={value}>
-                      {value}/10
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Review</Form.Label>
-
-                <Form.Control
-                  as="textarea"
-                  rows={4}
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Write your review..."
-                />
-              </Form.Group>
-
-              <Button type="submit" disabled={submitting}>
-                {submitting ? 'Saving...' : 'Submit review'}
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      )}
-
-      {!isLoggedIn() && (
-        <Alert variant="secondary">
-          Moraš biti prijavljen da bi napisao recenziju.
-        </Alert>
-      )}
-
-      {error && (
-        <Alert variant="danger">
-          {error}
-        </Alert>
-      )}
-
-      {loading ? (
-        <div className="text-center py-4">
-          <Spinner animation="border" />
-        </div>
-      ) : reviews.length === 0 ? (
-        <Alert variant="secondary">
-          Još nema recenzija za ovaj film.
-        </Alert>
-      ) : (
-        reviews.map((review) => (
-          <Card className="mb-3" key={review._id}>
-            <Card.Body>
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <strong>{review.authorName}</strong>
-
-                <span className="fw-semibold">
-                  ⭐ {review.rating}/10
-                </span>
+      <Accordion.Body>
+        {isLoggedIn() && (
+          <div className="d-flex justify-content-end mb-3">
+            <PlusCircleFill 
+              className="fs-2 text-primary" 
+              role="button" 
+              onClick={() => setShowCreateModal(true)}/>
+          </div>
+        )}
+        {error && (
+          <Alert
+            variant="danger"
+            className="border-0 rounded-3"
+          >
+            {error}
+          </Alert>
+        )}
+        {loading ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" />
+          </div>
+        ) : reviews.length === 0 ? (
+          <div className="text-center bg-body-tertiary rounded-4 p-5">
+            <h5 className="fw-semibold mb-2">
+              No reviews yet
+            </h5>
+        
+            <p className="text-secondary mb-0">
+              Be the first to share your opinion about this movie.
+            </p>
+          </div>
+        ) : (
+          <div>
+            {reviews.map((review) => (
+              <div className="mb-4" key={review._id}>
+                <Card className="shadow-sm rounded-3">
+                  <Card.Body className="p-4 d-flex flex-column">
+                    <div className="d-flex justify-content-between align-items-start mb-3">
+                      <div className="fs-5">
+                        <StarFill className="text-warning"/>{' '}
+                        <span className="fw-semibold">
+                          {review.rating}
+                        </span>
+                        <span className="text-secondary">
+                          /10
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <Card.Text className="fs-5 lh-lg mb-3 text-start">
+                      {review.text}
+                    </Card.Text>
+                    
+                    {currentUser && review.authorID == currentUser._id && (
+                      <div className="d-flex gap-2 justify-content-end">
+                        <Button
+                          variant="outline-secondary"
+                          size="sm"
+                          onClick={() => setEditingReview(review)}
+                        >
+                          Edit
+                        </Button>
+                    
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => handleDelete(review._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    )}
+                  </Card.Body>
+                </Card>
+                    
+                <div className="d-flex align-items-center gap-2 mt-2 px-2">
+                  <PersonCircle className="fs-3 text-primary" />
+                    
+                  <Link
+                    to={`/profile/${review.authorID}`}
+                    className="fw-semibold text-decoration-none"
+                  >
+                    {review.authorName}
+                  </Link>
+                    
+                  <span className="text-secondary">
+                    •
+                  </span>
+                    
+                  <small className="text-secondary mt-2">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </small>
+                </div>
               </div>
+            ))}
+          </div>
+        )}
+      </Accordion.Body>
+    </Accordion.Item>
+  </Accordion>
 
-              <Card.Text>
-                {review.text}
-              </Card.Text>
+    <CreateReviewModal
+      imdbID={imdbID}
+      show={showCreateModal}
+      onHide={() => setShowCreateModal(false)}
+    />
 
-              <div className="d-flex justify-content-between align-items-center">
-                <small className="text-secondary">
-                  {new Date(review.createdAt).toLocaleDateString()}
-                </small>
-
-                {currentUser && review.authorName == currentUser.username && (
-                  <div className="d-flex gap-2">
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      onClick={() => setEditingReview(review)}
-                    >
-                      Edit
-                    </Button>
-
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      onClick={() => handleDelete(review._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </Card.Body>
-          </Card>
-        ))
-      )}
-
-      <EditReviewModal
-        review={editingReview}
-        show={editingReview !== null}
-        onHide={() => setEditingReview(null)}
-        onUpdated={handleReviewUpdated}
-      />
-    </div>
-  )
+    <EditReviewModal
+      review={editingReview}
+      show={editingReview !== null}
+      onHide={() => setEditingReview(null)}
+      onUpdated={handleReviewUpdated}
+    />
+</div>
+)
 }
 
 export default CommentSection

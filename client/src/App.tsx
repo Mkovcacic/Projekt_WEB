@@ -10,6 +10,7 @@ import Signup from "./pages/Signup.tsx";
 import Profile from './pages/Profile'
 import MovieDetails from "./pages/MovieDetails.tsx";
 import SearchResults from "./pages/SearchResults.tsx";
+import UserProfile from "./pages/UserProfile.tsx";
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/movie/tmdb/:tmdbID" element={<MovieDetails />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={ <ProtectedRoute> <Profile /> </ProtectedRoute>} />
+          <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/search" element={<SearchResults />} />
         </Route>
       <Route path="/login" element={<Login />} />
