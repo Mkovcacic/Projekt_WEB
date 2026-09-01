@@ -115,15 +115,16 @@ export async function getMovieDetails(imdbID: string): Promise<Movie> {
 
 // Review routes
 
-export async function getReviewsByAuthor(authorName: string): Promise<Review[]> {
+export async function getUserReviews(userID: string): Promise<Review[]> {
   const response = await fetch(
-    `${API_URL}/api/reviews/user?authorName=${encodeURIComponent(authorName)}`
+    `${API_URL}/api/reviews/user/${encodeURIComponent(userID)}`
   )
 
   const data = await response.json()
+  
 
   if (!response.ok) {
-    throw new Error(data.error || 'Greška kod dohvaćanja komentara korisnika')
+    throw new Error(data.error || 'Greška kod dohvaćanja recenzija')
   }
 
   return data
@@ -139,6 +140,32 @@ export async function getMovieReviews(imdbID: string): Promise<Review[]> {
   }
 
   return data
+}
+
+export async function downloadReviews(): Promise<void> {
+  const token = getToken()
+
+  const response = await fetch(`${API_URL}/api/reviews/download`, {
+    headers: { authorization: token || '' }
+  })
+
+  if (!response.ok) {
+    const data = await response.json()
+    throw new Error(data.error || 'Greška kod preuzimanja recenzija')
+  }
+
+  const blob = await response.blob()
+  const url = window.URL.createObjectURL(blob)
+
+  const link = document.createElement('a')
+  link.href = url
+  link.download = 'reviews.json'
+
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+
+  window.URL.revokeObjectURL(url)
 }
 
 export async function createReview(review: CreateReviewData): Promise<Review> {
@@ -228,7 +255,7 @@ export async function getUserById(id: string): Promise<PublicUser> {
   return data
 }
 
-export async function updateCurrentUser(data: UpdateUserData): Promise<void> {
+export async function updateCurrentUser(data: UpdateUserData): Promise<CurrentUser> {
   const token = getToken()
 
   const response = await fetch(`${API_URL}/api/user/update`, {
@@ -245,6 +272,8 @@ export async function updateCurrentUser(data: UpdateUserData): Promise<void> {
   if (!response.ok) {
     throw new Error(responseData.error || responseData.message || 'Greška kod ažuriranja profila')
   }
+
+  return responseData
 }
 
 export async function deleteCurrentUser(): Promise<void> {

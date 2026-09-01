@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Alert, Button, Form, Modal } from 'react-bootstrap'
 import { createReview } from '../services/api'
 
-function CreateReviewModal({ imdbID, show, onHide, }: Props) {
+function CreateReviewModal({ imdbID, title, show, onHide, }: CreateProps) {
   const [rating, setRating] = useState(10)
   const [text, setText] = useState('')
   const [saving, setSaving] = useState(false)
@@ -22,6 +22,7 @@ function CreateReviewModal({ imdbID, show, onHide, }: Props) {
 
       await createReview({
         imdbID,
+        title,
         rating,
         text
       })

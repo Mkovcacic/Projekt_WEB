@@ -43,6 +43,7 @@ type Review = {
   imdbID: string
   authorID: string
   authorName: string
+  title: string
   rating: number
   text: string
   createdAt: string
@@ -53,14 +54,23 @@ type AuthResponse = {
   token: string
 }
 
-type Props = {
+type CreateProps = {
   imdbID: string
+  title: string
   show: boolean
   onHide: () => void
 }
 
+type EditProps = {
+  review: Review | null
+  show: boolean
+  onHide: () => void
+  onUpdated: (review: Review) => void
+}
+
 type CreateReviewData = {
   imdbID: string
+  title: string
   rating: number
   text: string
 }
