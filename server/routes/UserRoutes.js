@@ -64,17 +64,17 @@ function createUserRoutes({ users, jwt_protection }) {
           return res.status(400).json({ error: 'Korisničko ime već postoji' });
         }        
         
-        const result = await users.updateOne(
+        const result = await users.findOneAndUpdate(
           { _id: id },
           {
             $set: {
               name: req.body.name,
               username: req.body.username,
               email: req.body.email,
-              favGenre: req.body.favGenre,
-              updatedAt: new Date(),
+              favGenre: req.body.favGenre
             },
-          }
+          },
+          { returnDocument: 'after' }
         );
 
 
