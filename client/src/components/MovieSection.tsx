@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons'
-import TMDbMovieCard from './TMDBMoviCard'
+import TMDbMovieCard from './TMDBMovieCard'
 
 type Props = {
   title: string

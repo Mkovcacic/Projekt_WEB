@@ -54,29 +54,29 @@ function Signup() {
   }
 
   return (
-    <div className="py-5">
+    <div className="py-3">
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} sm={10} md={8} lg={6}>
             <Card className="border-0 shadow-sm rounded-4">
-              <Card.Body className="p-4 p-md-5">
-                <div className="text-center mb-4">
-                  <h1 className="fw-bold mb-2">
+              <Card.Body className="p-3 p-md-4">
+                <div className="text-center mb-3">
+                  <h2 className="fw-bold mb-0">
                     Create account
-                  </h1>
+                  </h2>
                 </div>
   
                 {error && (
-                  <Alert variant="danger" className="border-0 rounded-3">
+                  <Alert variant="danger" className="border-0 rounded-3 py-2">
                     {error}
                   </Alert>
                 )}
   
                 <Form onSubmit={handleSubmit}>
-                  <Row className="g-3">
+                  <Row className="g-2">
                     <Col xs={12}>
                       <Form.Group>
-                        <Form.Label className="fw-semibold">
+                        <Form.Label className="fw-semibold mb-1">
                           Name
                         </Form.Label>
               
@@ -85,15 +85,14 @@ function Signup() {
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           required
-                          size="lg"
                           className="rounded-3"
                         />
                       </Form.Group>
                     </Col>
               
-                    <Col mxs={12}>
+                    <Col xs={12}>
                       <Form.Group>
-                        <Form.Label className="fw-semibold">
+                        <Form.Label className="fw-semibold mb-1">
                           Username
                         </Form.Label>
               
@@ -102,7 +101,6 @@ function Signup() {
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
                           required
-                          size="lg"
                           className="rounded-3"
                         />
                       </Form.Group>
@@ -110,7 +108,7 @@ function Signup() {
               
                     <Col xs={12}>
                       <Form.Group>
-                        <Form.Label className="fw-semibold">
+                        <Form.Label className="fw-semibold mb-1">
                           Email
                         </Form.Label>
               
@@ -119,7 +117,6 @@ function Signup() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required
-                          size="lg"
                           className="rounded-3"
                         />
                       </Form.Group>
@@ -127,7 +124,7 @@ function Signup() {
               
                     <Col xs={12}>
                       <Form.Group>
-                        <Form.Label className="fw-semibold">
+                        <Form.Label className="fw-semibold mb-1">
                           Password
                         </Form.Label>
               
@@ -136,7 +133,6 @@ function Signup() {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           required
-                          size="lg"
                           className="rounded-3"
                         />
                       </Form.Group>
@@ -144,14 +140,14 @@ function Signup() {
               
                     <Col xs={12}>
                       <Form.Group>
-                        <Form.Label className="fw-semibold">
+                        <Form.Label className="fw-semibold mb-1">
                           Favourite genre
                         </Form.Label>
               
                         <Form.Select
                           value={favGenre}
                           onChange={(e) => setFavGenre(e.target.value)}
-                          htmlSize={5}
+                          htmlSize={3}
                           className="rounded-3 bg-body-tertiary border-0"
                         >
                           <option value="Action">Action</option>
@@ -178,11 +174,10 @@ function Signup() {
                     </Col>
                   </Row>
               
-                  <div className="d-flex flex-column flex-md-row gap-3 mt-4">
+                  <div className="d-flex gap-2 mt-3">
                     <Button
                       type="submit"
                       className="flex-grow-1 rounded-3"
-                      size="lg"
                       disabled={loading}
                     >
                       {loading ? 'Creating account...' : 'Sign up'}
@@ -192,7 +187,6 @@ function Signup() {
                       type="button"
                       variant="outline-secondary"
                       className="flex-grow-1 rounded-3"
-                      size="lg"
                       onClick={handleCancel}
                     >
                       Quit
@@ -200,9 +194,9 @@ function Signup() {
                   </div>
                 </Form>
               
-                <hr className="my-4" />
+                <hr className="my-3" />
               
-                <div className="text-center">
+                <div className="text-center small">
                   <span className="text-secondary">
                     Already have an account?{' '}
                   </span>

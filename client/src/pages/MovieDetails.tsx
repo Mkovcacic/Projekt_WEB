@@ -79,7 +79,7 @@ function MovieDetails() {
               {movie.Title}
             </h1>
             
-            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3">
+            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3 justify-content-md-center justify-content-lg-start">
               <span>{movie.Year}</span>
               <span>•</span>
               <span>{movie.Rated}</span>
@@ -89,7 +89,7 @@ function MovieDetails() {
               <span>{movie.Released}</span>
             </div>
             
-            <div className="d-flex flex-wrap gap-2">
+            <div className="d-flex flex-wrap gap-2 justify-content-md-center justify-content-lg-start">
               {movie.Genre.split(", ").map((genre) => (
                 <Badge
                   bg="dark"
