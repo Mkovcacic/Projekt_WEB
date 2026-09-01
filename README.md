@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
-npm install react-bootstrap bootstrap
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🎥 CineForum | Movie Review App
+**Projekt iz kolegija: Web programiranje**
 
-Currently, two official plugins are available:
+CineForum je moderna full-stack web aplikacija namijenjena ljubiteljima filmova i serija. Korisnicima omogućuje pretraživanje i otkrivanje filmova ili serija, pregled detaljnih informacija, ocjenjivanje i pisanje recenzija te pregled profila drugih korisnika. Aplikacija koristi podatke iz **TMDb** i **OMDb** servisa, dok se recenzije i korisnički podaci spremaju u MongoDB bazu.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Ključne funkcionalnosti
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* **Otkrivanje filmova:** Početna stranica prikazuje nove, popularne i najbolje ocijenjene filmove dohvaćene putem TMDb API-ja.
+* **Pretraživanje filmova:** Pretraga filmova po naslovu uz dohvat rezultata i detaljnih podataka putem OMDb API-ja.
+* **Detalji filma:** Prikaz naslova, godine izlaska, trajanja, žanrova, opisa, IMDb ocjene, glumaca, redatelja i ostalih dostupnih podataka.
+* **Recenzije i ocjenjivanje:** Prijavljeni korisnici mogu dodavati, uređivati i brisati vlastite recenzije te ocijeniti film ocjenom od 1 do 10.
+* **Download recenzija:** Korisnik može preuzeti vlastite recenzije u JSON datoteci.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠 Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Frontend (Client)
+* **React (Vite)** – izrada brzog i reaktivnog korisničkog sučelja.
+* **TypeScript** – tipizacija i sigurnije održavanje frontend koda.
+* **React Router** – navigacija između stranica unutar SPA aplikacije.
+* **Bootstrap / React-Bootstrap** – responzivni dizajn i UI komponente.
+* **React Bootstrap Icons** – ikone korištene kroz aplikaciju.
+* **Socket.IO Client** – komunikacija sa serverom u stvarnom vremenu.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Backend (Server)
+* **Node.js** – runtime okruženje za izvršavanje JavaScripta na poslužitelju.
+* **Express** – REST API, middleware i obrada HTTP zahtjeva.
+* **MongoDB** – baza podataka za korisnike i recenzije.
+* **JSON Web Token (JWT)** – autentifikacija i zaštita privatnih API ruta.
+* **Node.js Crypto / PBKDF2** – hashiranje i provjera korisničkih lozinki.
+* **Socket.IO** – real-time sinkronizacija recenzija između korisnika.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Vanjski servisi
+* **TMDb API** – novi, popularni i najbolje ocijenjeni filmovi te povezivanje TMDb i IMDb identifikatora.
+* **OMDb API** – pretraživanje filmova i dohvat detaljnih filmskih podataka.
+* **Vercel** – deployment frontend i backend aplikacije.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🌐 Deployment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Aplikacija je deployana pomoću Vercela.
+
+### Frontend
+
+https://cine-forum.vercel.app/
+
+### Backend
+
+https://cine-forum-server.vercel.app/
+
+---
+
+
+### Stranica se nalazi na https://cine-forum.vercel.app/
