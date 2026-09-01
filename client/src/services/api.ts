@@ -1,5 +1,5 @@
 import { getToken } from './auth'
-const API_URL = 'http://localhost:3100'
+const API_URL = import.meta.env.SERVER_API_URL
 
 // Auth routes
 

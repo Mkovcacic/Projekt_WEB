@@ -15,11 +15,11 @@ const createAuthRoutes = require('./routes/AuthRoutes');
 const createReviewRoutes = require('./routes/ReviewRoutes');
 const createUserRoutes = require('./routes/UserRoutes');
 
-const port = process.env.PORT || 3100;
+const port = process.env.PORT;
 const app = express();
 const server = http.createServer(app);
 
-const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
+const clientURL = process.env.CLIENT_URL;
 const io = new Server(server, {
   cors: {
     origin: clientURL,

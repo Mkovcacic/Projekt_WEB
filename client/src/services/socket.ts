@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client'
 
-const SOCKET_URL = 'http://localhost:3100'
+const SOCKET_URL = import.meta.env.SERVER_API_URL
 
 export const socket = io(SOCKET_URL, { autoConnect: false, })
