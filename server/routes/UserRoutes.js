@@ -74,7 +74,8 @@ function createUserRoutes({ users, jwt_protection }) {
               favGenre: req.body.favGenre,
               updatedAt: new Date(),
             },
-          }
+          },
+          { returnDocument: 'after' }
         );
 
 
