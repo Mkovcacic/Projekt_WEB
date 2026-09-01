@@ -1,37 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Alert, Button, Form, Modal } from 'react-bootstrap'
-import { updateReview } from '../services/api'
+import { createReview } from '../services/api'
 
-type Props = {
-  review: Review | null
-  show: boolean
-  onHide: () => void
-  onUpdated: (review: Review) => void
-}
-
-function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
+function CreateReviewModal({ imdbID, show, onHide, }: Props) {
   const [rating, setRating] = useState(10)
   const [text, setText] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (review) {
-      setRating(review.rating)
-      setText(review.text)
-      setError(null)
-    }
-  }, [review])
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    if (!review) {
-      return
-    }
-
     if (!text.trim()) {
-      setError('Recenzija ne može biti prazna')
+      setError('Review cannot be empty')
       return
     }
 
@@ -39,9 +20,14 @@ function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
       setSaving(true)
       setError(null)
 
-      const updatedReview = await updateReview(review._id, rating, text.trim())
+      await createReview({
+        imdbID,
+        rating,
+        text
+      })
 
-      onUpdated(updatedReview)
+      setRating(10)
+      setText('')
       onHide()
     } catch (e) {
       if (e instanceof Error) {
@@ -56,7 +42,7 @@ function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
     <Modal show={show} onHide={onHide} centered>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit review</Modal.Title>
+          <Modal.Title>Add review</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -87,17 +73,25 @@ function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
               rows={4}
               value={text}
               onChange={(e) => setText(e.target.value)}
+              placeholder="Write your review..."
             />
           </Form.Group>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>
+          <Button
+            variant="secondary"
+            type="button"
+            onClick={onHide}
+          >
             Cancel
           </Button>
 
-          <Button type="submit" disabled={saving}>
-            {saving ? 'Saving...' : 'Save'}
+          <Button
+            type="submit"
+            disabled={saving}
+          >
+            {saving ? 'Saving...' : 'Submit review'}
           </Button>
         </Modal.Footer>
       </Form>
@@ -105,4 +99,4 @@ function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
   )
 }
 
-export default EditReviewModal
+export default CreateReviewModal

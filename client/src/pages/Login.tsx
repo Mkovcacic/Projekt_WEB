@@ -46,71 +46,90 @@ function Login() {
     navigate(from || '/', { replace: true })
   }  
 
-  return (
-    <Container className="py-5">
+return (
+  <div className="bg-body-tertiary py-5">
+    <Container>
       <Row className="justify-content-center">
-        <Col xs={12} sm={10} md={7} lg={5}>
-          <Card className="shadow-sm">
-            <Card.Body className="p-4">
-              <h2 className="fw-bold text-center mb-4">
-                Login
-              </h2>
+        <Col xs={12} sm={10} md={8} lg={5}>
+          <Card className="border-0 shadow-sm rounded-4">
+            <Card.Body className="p-4 p-md-5 text-start">
+              <div className="text-center mb-4">
+                <h1 className="fw-bold mb-2">
+                  Login
+                </h1>
+              </div>
 
               {error && (
-                <Alert variant="danger">
+                <Alert variant="danger" className="border-0 rounded-3">
                   {error}
                 </Alert>
               )}
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Username</Form.Label>
+              <Form onSubmit={handleSubmit} className="text-start">
+                <Form.Group className="mb-3 text-start">
+                  <Form.Label className="fw-semibold d-block text-start">
+                    Username
+                  </Form.Label>
 
                   <Form.Control
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
+                    size="lg"
+                    className="rounded-3"
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-4">
-                  <Form.Label>Password</Form.Label>
+                <Form.Group className="mb-4 text-start">
+                  <Form.Label className="fw-semibold d-block text-start">
+                    Password
+                  </Form.Label>
 
                   <Form.Control
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    size="lg"
+                    className="rounded-3"
                   />
                 </Form.Group>
 
-                <div className="d-flex gap-2">
-                <Button
-                  type="submit"
-                  className="w-100"
-                  disabled={loading}
-                >
-                  {loading ? 'Logging in...' : 'Login'}
-                </Button>
+                <div className="d-flex flex-column flex-md-row gap-3">
+                  <Button
+                    type="submit"
+                    className="flex-grow-1 rounded-3"
+                    size="lg"
+                    disabled={loading}
+                  >
+                    {loading ? 'Logging in...' : 'Login'}
+                  </Button>
 
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleCancel}
-                >
-                  Odustani
-                </Button>
+                  <Button
+                    type="button"
+                    variant="outline-secondary"
+                    className="flex-grow-1 rounded-3"
+                    size="lg"
+                    onClick={handleCancel}
+                  >
+                    Quit
+                  </Button>
                 </div>
-
               </Form>
 
-              <div className="text-center mt-3">
+              <hr className="my-4" />
+
+              <div className="text-center">
                 <span className="text-secondary">
                   Don't have an account?{' '}
                 </span>
 
-                <Link to="/signup" state={{ from }}>
+                <Link
+                  to="/signup"
+                  state={{ from }}
+                  className="fw-semibold text-decoration-none"
+                >
                   Sign up
                 </Link>
               </div>
@@ -119,7 +138,8 @@ function Login() {
         </Col>
       </Row>
     </Container>
-  )
+  </div>
+)
 }
 
 export default Login

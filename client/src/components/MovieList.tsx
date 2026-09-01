@@ -1,44 +1,42 @@
 import { Link } from "react-router-dom";
-import {Card, Col, Row} from "react-bootstrap";
+import {Card, Col, Row, Ratio} from "react-bootstrap";
 import noImageFallback from '../assets/noimage.svg';
 
-function MovieCard({ movie }: { movie: Movie | MovieSearchResult }) {
-
+function MovieCard({ movie }: { movie: MovieSearchResult }) {
   return (
     <Link
       to={`/movie/${movie.imdbID}`}
-      className="text-decoration-none text-dark"
+      className="text-decoration-none text-body"
     >
-        <Card className="border-0 bg-transparent h-100">
+      <Card className="border-0 bg-transparent h-100">
+        <Ratio aspectRatio={150}>
           <Card.Img
             variant="top"
-            src={(movie.Poster === "N/A") ? noImageFallback : movie.Poster}
+            src={
+              movie.Poster && movie.Poster !== 'N/A'
+                ? movie.Poster
+                : noImageFallback
+            }
             alt={movie.Title}
-            className="rounded img-fluid"
+            className="rounded-3 object-fit-contain"
             onError={(e) => {
               e.currentTarget.src = noImageFallback;
             }}
           />
+        </Ratio>
 
-          <Card.Body className="px-0 py-2 d-flex flex-column flex-grow-1">
-            <Card.Title className="fs-6 fw-semibold mb-1">
-              {movie.Title}
-            </Card.Title>
+        <Card.Body className="px-0 py-2 d-flex flex-column flex-grow-1">
+          <Card.Title className="fs-6 fw-semibold mb-1">
+            {movie.Title}
+          </Card.Title>
 
-            <div className="d-flex align-items-center gap-3 small mt-auto">
-              {'imdbRating' in movie && movie.imdbRating && (
-                <span className="fw-semibold">
-                  ⭐ {movie.imdbRating}
-                </span>
-              )}
-              <span className="text-secondary">
-                {movie.Year}
-              </span>
-            </div>
-          </Card.Body>
-        </Card>
+          <span className="text-secondary small mt-auto">
+            {movie.Year}
+          </span>
+        </Card.Body>
+      </Card>
     </Link>
-  );
+  )
 }
 
 function MovieList({ movies }: { movies : (Movie | MovieSearchResult)[] }) {

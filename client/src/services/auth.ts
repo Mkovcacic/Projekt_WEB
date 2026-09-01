@@ -1,31 +1,43 @@
 const TOKEN_KEY = 'cineforumToken'
 
-export const saveToken = (token: string) => {
-  window.localStorage.setItem(TOKEN_KEY, token)
+export function getToken(): string {
+  return localStorage.getItem(TOKEN_KEY) ?? ''
 }
 
 export function setToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token)
 }
 
-export const getToken = () => {
-  const token = window.localStorage.getItem(TOKEN_KEY)
-
-  if (!token) {
-    throw new Error('Korisnik nije prijavljen')
-  }
-
-  return token
+export function removeToken() {
+  localStorage.removeItem(TOKEN_KEY)
 }
 
-export function isLoggedIn() {
+export function isLoggedIn(): boolean {
+  const token = getToken()
+
+  if (!token) {
+    return false
+  }
+
   try {
-    return !!getToken()
-  } catch (error) {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+
+    if (!payload.exp) {
+      return false
+    }
+
+    if (payload.exp * 1000 <= Date.now()) {
+      removeToken()
+      return false
+    }
+
+    return true
+  } catch {
+    removeToken()
     return false
   }
 }
 
-export const logout = () => {
-  window.localStorage.removeItem(TOKEN_KEY)
+export function logout() {
+  removeToken()
 }

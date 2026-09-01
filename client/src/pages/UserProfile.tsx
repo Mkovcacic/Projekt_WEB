@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
-import { Calendar3, Envelope, Film, Person, PencilSquare } from 'react-bootstrap-icons'
+import { Calendar3, Envelope, Film, Person } from 'react-bootstrap-icons'
 
-import { getCurrentUser } from '../services/api'
+import { getUserById } from '../services/api'
 
-function Profile() {
-  const [user, setUser] = useState<CurrentUser | null>(null)
+function UserProfile() {
+  const { id } = useParams()
+
+  const [user, setUser] = useState<PublicUser | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const loadUser = async () => {
+      if (!id) {
+        return
+      }
+
       try {
-        const data = await getCurrentUser()
+        const data = await getUserById(id)
         setUser(data)
       } catch (e) {
         if (e instanceof Error) {
@@ -21,14 +28,12 @@ function Profile() {
     }
 
     loadUser()
-  }, [])
+  }, [id])
 
   if (error) {
     return (
       <Container className="py-5">
-        <Alert variant="danger">
-          {error}
-        </Alert>
+        <Alert variant="danger">{error}</Alert>
       </Container>
     )
   }
@@ -52,7 +57,6 @@ return (
         <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
           <Card.Body className="p-0">
             <div className="bg-dark text-white p-4 p-md-5">
-              <PencilSquare className="position-absolute top-0 end-0 m-3 fs-4 text-white"/>
               <Row className="align-items-start">
                 <Col xs={3} sm={2}>
                   <div className="ratio ratio-1x1">
@@ -154,4 +158,4 @@ return (
 )
 }
 
-export default Profile
+export default UserProfile

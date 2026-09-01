@@ -37,7 +37,7 @@ function Home() {
         <div className="box theme-a adaptive">Theme A (changed if dark preferred)</div>
       */
       }
-      <div className="container py-4">
+      <div className="container py-5">
         <MovieSection
           title="New movies"
           movies={newMovies}

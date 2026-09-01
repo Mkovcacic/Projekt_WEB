@@ -1,7 +1,8 @@
-import { Row, Col, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import noImageFallback from '../assets/noimage.svg';
 
-export function TMDbMovieCard({ movie }: { movie: TMDBMovie }) {
+function TMDbMovieCard({ movie }: { movie: TMDBMovie }) {
   return (
     <Link to={`/movie/tmdb/${movie.id}`} className="text-decoration-none text-dark">
       <Card className="border-0 bg-transparent h-100">
@@ -10,14 +11,14 @@ export function TMDbMovieCard({ movie }: { movie: TMDBMovie }) {
           src={
             movie.poster_path
               ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : '/images/placeholder.png'
+              : noImageFallback
           }
           alt={movie.title}
           className="rounded img-fluid"
         />
 
         <Card.Body className="px-0 py-2">
-          <Card.Title className="fs-6 fw-semibold mb-1 text-truncate">
+          <Card.Title className="fs-6 fw-semibold mb-1">
             {movie.title}
           </Card.Title>
 
@@ -30,16 +31,4 @@ export function TMDbMovieCard({ movie }: { movie: TMDBMovie }) {
   )
 }
 
-function TMDbMovieList({ movies }: { movies: TMDBMovie[] }) {
-  return (
-    <Row xs={2} sm={3} md={4} lg={5} xl={6} className="g-3">
-      {movies.map((movie) => (
-        <Col key={movie.id}>
-          <TMDbMovieCard movie={movie} />
-        </Col>
-      ))}
-    </Row>
-  )
-}
-
-export default TMDbMovieList
+export default TMDbMovieCard

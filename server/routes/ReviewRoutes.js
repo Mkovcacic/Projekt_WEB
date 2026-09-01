@@ -40,14 +40,14 @@ function createReviewRoutes({ reviews, jwt_protection, io }) {
       try {
         const review = {
           imdbID: req.body.imdbID,
-          authorId: req.user._id,
+          authorID: req.user._id,
           authorName: req.user.username,
           rating: Number(req.body.rating),
           text: req.body.text,
           createdAt: new Date(),
         };
 
-        if (!review.imdbID || !review.authorId || !review.authorName || !review.rating || !review.text) {
+        if (!review.imdbID || !review.authorID || !review.authorName || !review.rating || !review.text) {
           return res.status(400).json({ error: 'Nedostaju obavezni podaci' });
         }
 

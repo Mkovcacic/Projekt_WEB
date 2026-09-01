@@ -41,6 +41,7 @@ type MovieSearchResult = {
 type Review = {
   _id: string
   imdbID: string
+  authorID: string
   authorName: string
   rating: number
   text: string
@@ -50,6 +51,12 @@ type Review = {
 type AuthResponse = {
   message: string
   token: string
+}
+
+type Props = {
+  imdbID: string
+  show: boolean
+  onHide: () => void
 }
 
 type CreateReviewData = {
@@ -85,4 +92,13 @@ type UpdateUserData = {
   username: string
   email: string
   favGenre: string
+}
+
+type PublicUser = {
+  _id: string
+  name: string
+  username: string
+  email: string
+  favGenre: string
+  createdAt: string
 }

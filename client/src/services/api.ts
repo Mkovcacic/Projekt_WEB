@@ -216,6 +216,18 @@ export async function getCurrentUser(): Promise<CurrentUser> {
   return data
 }
 
+export async function getUserById(id: string): Promise<PublicUser> {
+  const response = await fetch(`${API_URL}/api/user/${encodeURIComponent(id)}`)
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja korisnika')
+  }
+
+  return data
+}
+
 export async function updateCurrentUser(data: UpdateUserData): Promise<void> {
   const token = getToken()
 
