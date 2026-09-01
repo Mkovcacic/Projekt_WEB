@@ -79,7 +79,7 @@ function MovieDetails() {
               {movie.Title}
             </h1>
             
-            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3 justify-content-sm-center justify-content-mdlg-start">
+            <div className="d-flex flex-wrap align-items-center gap-2 text-secondary mb-3 justify-content-sm-center justify-content-md-start">
               <span>{movie.Year}</span>
               <span>•</span>
               <span>{movie.Rated}</span>
