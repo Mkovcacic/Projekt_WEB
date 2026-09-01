@@ -56,7 +56,7 @@ function createUserRoutes({ users, jwt_protection }) {
         const id = new mongodb.ObjectId(String(req.user._id));
 
         const existingUser = await users.findOne({
-          username,
+          username: req.body.username,
           _id: { $ne: id }
         });
       

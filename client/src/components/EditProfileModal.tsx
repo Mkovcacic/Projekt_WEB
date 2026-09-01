@@ -27,7 +27,7 @@ function EditProfileModal({ user, show, onHide, onUpdated }: Props) {
     setError(null)
   }, [show, user])
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     try {
