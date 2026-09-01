@@ -134,7 +134,7 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
             Reviews
           </span>
         </Accordion.Header>
-  
+
         <Accordion.Body>
           {isLoggedIn() && (
             <div className="d-flex justify-content-end mb-3">
@@ -183,11 +183,11 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
                           </span>
                         </div>
                       </div>
-                      
+
                       <Card.Text className="fs-5 lh-lg mb-3 text-start">
                         {review.text}
                       </Card.Text>
-                      
+
                       {currentUser && review.authorID == currentUser._id && (
                         <div className="d-flex gap-2 justify-content-end">
                           <Button
@@ -209,10 +209,10 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
                       )}
                     </Card.Body>
                   </Card>
-                      
+
                   <div className="d-flex align-items-center gap-2 mt-2 px-2">
                     <PersonCircle className="fs-3 text-primary" />
-                      
+
                     <Link
                         to={
                           currentUser && review.authorID === currentUser._id
@@ -222,11 +222,11 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
                     >
                       {review.authorName}
                     </Link>
-                      
+
                     <span className="text-secondary">
                       •
                     </span>
-                      
+
                     <small className="text-secondary">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </small>
@@ -238,14 +238,14 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-        
+
       <CreateReviewModal
         imdbID={imdbID}
         title={title}
         show={showCreateModal}
         onHide={() => setShowCreateModal(false)}
       />
-  
+
       <EditReviewModal
         review={editingReview}
         show={editingReview !== null}
