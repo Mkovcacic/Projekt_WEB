@@ -1,5 +1,4 @@
 const express = require('express');
-const mongodb = require('mongodb');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -16,13 +15,14 @@ const createAuthRoutes = require('./routes/AuthRoutes');
 const createReviewRoutes = require('./routes/ReviewRoutes');
 const createUserRoutes = require('./routes/UserRoutes');
 
-const port = 3100;
+const port = process.env.PORT || 3100;
 const app = express();
 const server = http.createServer(app);
 
+const clientURL = process.env.CLIENT_URL || 'http://localhost:5173';
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: clientURL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });
@@ -34,7 +34,7 @@ const jwtVerifyAsync = util.promisify(jwt.verify);
 const secret = process.env.JWT_SECRET;
 
 
-app.use(cors());
+app.use(cors({origin: clientURL}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

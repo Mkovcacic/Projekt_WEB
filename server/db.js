@@ -1,19 +1,32 @@
 const mongodb = require('mongodb');
+require('dotenv').config();
+
+let client;
+let db;
+let connectionPromise = null;
 
 const connect_to_db = async () => {
-  const url = 'mongodb://127.0.0.1:27017';
-  const client = new mongodb.MongoClient(url);
-  const dbName = 'cineforum';
-  let db;
-  try {
-    await client.connect();
-    console.log('MongoDB: Successfully connected');
-  } catch (e) {
-    console.log(e);
+  if (db) {
+    return db;
   }
 
-  db = client.db(dbName);
-  return db;
+  if (!connectionPromise) {
+    const client = new mongodb.MongoClient(process.env.MONGODB_URL);
+
+    connectionPromise = client
+      .connect()
+      .then(() => {
+        db = client.db('cineforum');
+        console.log('MongoDB: Successfully connected)');
+        return db;
+      })
+      .catch((err) => {
+        connectionPromise = null;
+        throw err;
+      });
+  }
+
+  return connectionPromise;
 };
 
 module.exports = { connect_to_db };
