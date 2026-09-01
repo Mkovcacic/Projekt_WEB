@@ -64,7 +64,7 @@ function createUserRoutes({ users, jwt_protection }) {
           return res.status(400).json({ error: 'Korisničko ime već postoji' });
         }        
         
-        const result = await users.updateOne(
+        const result = await users.findOneAndUpdate(
           { _id: id },
           {
             $set: {
