@@ -60,26 +60,26 @@ function Signup() {
           <Col xs={12} sm={10} md={8} lg={6}>
             <Card className="border-0 shadow-sm rounded-4">
               <Card.Body className="p-3 p-md-4">
-                <div className="text-start mb-3">
+                <div className="text-center mb-3">
                   <h2 className="fw-bold mb-0">
                     Create account
                   </h2>
                 </div>
-
+  
                 {error && (
                   <Alert variant="danger" className="border-0 rounded-3 py-2">
                     {error}
                   </Alert>
                 )}
-
+  
                 <Form onSubmit={handleSubmit}>
-                  <Row className="g-2">
+                  <Row className="g-2 text-start">
                     <Col xs={12}>
                       <Form.Group>
                         <Form.Label className="fw-semibold mb-1">
                           Name
                         </Form.Label>
-
+              
                         <Form.Control
                           type="text"
                           value={name}
@@ -89,13 +89,13 @@ function Signup() {
                         />
                       </Form.Group>
                     </Col>
-
+              
                     <Col xs={12}>
                       <Form.Group>
                         <Form.Label className="fw-semibold mb-1">
                           Username
                         </Form.Label>
-
+              
                         <Form.Control
                           type="text"
                           value={username}
@@ -105,13 +105,13 @@ function Signup() {
                         />
                       </Form.Group>
                     </Col>
-
+              
                     <Col xs={12}>
                       <Form.Group>
                         <Form.Label className="fw-semibold mb-1">
                           Email
                         </Form.Label>
-
+              
                         <Form.Control
                           type="email"
                           value={email}
@@ -121,13 +121,13 @@ function Signup() {
                         />
                       </Form.Group>
                     </Col>
-
+              
                     <Col xs={12}>
                       <Form.Group>
                         <Form.Label className="fw-semibold mb-1">
                           Password
                         </Form.Label>
-
+              
                         <Form.Control
                           type="password"
                           value={password}
@@ -137,13 +137,13 @@ function Signup() {
                         />
                       </Form.Group>
                     </Col>
-
+              
                     <Col xs={12}>
                       <Form.Group>
                         <Form.Label className="fw-semibold mb-1">
                           Favourite genre
                         </Form.Label>
-
+              
                         <Form.Select
                           value={favGenre}
                           onChange={(e) => setFavGenre(e.target.value)}
@@ -173,7 +173,7 @@ function Signup() {
                       </Form.Group>
                     </Col>
                   </Row>
-
+              
                   <div className="d-flex gap-2 mt-3">
                     <Button
                       type="submit"
@@ -182,7 +182,7 @@ function Signup() {
                     >
                       {loading ? 'Creating account...' : 'Sign up'}
                     </Button>
-
+              
                     <Button
                       type="button"
                       variant="outline-secondary"
@@ -193,14 +193,14 @@ function Signup() {
                     </Button>
                   </div>
                 </Form>
-
+              
                 <hr className="my-3" />
-
+              
                 <div className="text-center small">
                   <span className="text-secondary">
                     Already have an account?{' '}
                   </span>
-
+              
                   <Link
                     to="/login"
                     state={{ from: location }}
