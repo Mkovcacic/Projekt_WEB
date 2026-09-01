@@ -214,8 +214,8 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
                     <PersonCircle className="fs-3 text-primary" />
 
                     <Link
-                      to={
-                        currentUser && review.authorID === currentUser._id
+                        to={
+                          currentUser && review.authorID === currentUser._id
                           ? '/profile'
                           : `/profile/${review.authorID}`}
                       className="fw-semibold text-decoration-none"
