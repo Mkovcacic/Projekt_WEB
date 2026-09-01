@@ -11,7 +11,7 @@ function About() {
             </h1>
   
             <p className="lead text-secondary mb-0">
-              Discover movies, explore detailed information and share your
+              Discover movies, explore their detailed information and share your
               opinions with other movie enthusiasts.
             </p>
           </div>
@@ -26,7 +26,7 @@ function About() {
   
                   <p className="text-secondary mb-0">
                     This application allows users to search for movies, view movie
-                    details and ratings, create an account, and write reviews for
+                    details and ratings, register, and write reviews for
                     movies they have watched.
                   </p>
                 </Col>
@@ -53,14 +53,15 @@ function About() {
   
             <div className=" border-4 ps-4">
               <p className="text-secondary">
-                Movie information is retrieved using the OMDb API. The
+                Movie information is retrieved using the OMDb and TMDB API. The
                 application uses IMDb identifiers to uniquely identify movies
                 and retrieve detailed information such as the title, release
-                year, genre, actors, director, IMDb rating and plot.
+                year, genre, actors, director, IMDb rating and plot and TMDB API
+                to find movies for the Home page.
               </p>
   
               <p className="text-secondary mb-0">
-                Movie data and ratings are provided by external data sources
+                Movie data and IMDb ratings are provided by external data sources
                 and are not created or maintained by this application.
               </p>
             </div>

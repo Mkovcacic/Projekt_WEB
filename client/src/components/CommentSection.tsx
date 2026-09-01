@@ -216,8 +216,8 @@ function CommentSection({ imdbID, title }: { imdbID : string, title : string }) 
                     <Link
                       to={
                         currentUser && review.authorID === currentUser._id
-                          ? '/profile'
-                          : `/profile/${review.authorID}`}
+                        ? '/profile'
+                        : `/profile/${review.authorID}`}
                       className="fw-semibold text-decoration-none"
                     >
                       {review.authorName}
