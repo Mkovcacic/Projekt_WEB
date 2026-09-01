@@ -88,6 +88,14 @@ app.use(express.urlencoded({ extended: false }));
       socket.leave(`movie:${imdbID}`);
     });
 
+    socket.on('join-user-room', (userID) => {
+      socket.join(`user:${userID}`);
+    });
+    
+    socket.on('leave-user-room', (userID) => {
+      socket.leave(`user:${userID}`);
+    });
+
     socket.on('disconnect', () => {
       console.log('Socket disconnected:', socket.id);
     });

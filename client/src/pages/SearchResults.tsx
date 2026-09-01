@@ -48,38 +48,38 @@ function SearchResults() {
     )
   }
 
-return (
-  <Container className="py-5">
-    <div className="mb-5">
-
-      <h1 className="fw-semibold mb-2">
-        Results for "{title}"
-      </h1>
-    </div>
-
-    {error && (
-      <Alert variant="danger" className="rounded-3 border-0">
-        {error}
-      </Alert>
-    )}
-
-    {!error && movies.length === 0 && (
-      <div className="bg-body-tertiary rounded-4 text-center py-5 px-4">
-        <h4 className="fw-semibold mb-2">
-          No movies found
-        </h4>
-
-        <p className="text-secondary mb-0">
-          Try searching with a different movie title.
-        </p>
+  return (
+    <Container className="py-5">
+      <div className="mb-5">
+  
+        <h1 className="fw-semibold mb-2">
+          Results for "{title}"
+        </h1>
       </div>
-    )}
-
-    {movies.length > 0 && (
-      <MovieList movies={movies} />
-    )}
-  </Container>
-)
+  
+      {error && (
+        <Alert variant="danger" className="rounded-3 border-0">
+          {error}
+        </Alert>
+      )}
+  
+      {!error && movies.length === 0 && (
+        <div className="bg-body-tertiary rounded-4 text-center py-5 px-4">
+          <h4 className="fw-semibold mb-2">
+            No movies found
+          </h4>
+      
+          <p className="text-secondary mb-0">
+            Try searching with a different movie title.
+          </p>
+        </div>
+      )}
+  
+      {movies.length > 0 && (
+        <MovieList movies={movies} />
+      )}
+    </Container>
+  )
 }
 
 export default SearchResults

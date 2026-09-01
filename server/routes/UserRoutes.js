@@ -77,7 +77,9 @@ function createUserRoutes({ users, jwt_protection }) {
           }
         );
 
-        res.json({ message: 'Profil uspješno ažuriran' });
+
+        console.log(result)
+        res.json(result);
       } catch (e) {
         res.status(500).json({ error: e.message });
       }

@@ -2,14 +2,7 @@ import { useEffect, useState } from 'react'
 import { Alert, Button, Form, Modal } from 'react-bootstrap'
 import { updateReview } from '../services/api'
 
-type Props = {
-  review: Review | null
-  show: boolean
-  onHide: () => void
-  onUpdated: (review: Review) => void
-}
-
-function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
+function EditReviewModal({ review, show, onHide, onUpdated }: EditProps) {
   const [rating, setRating] = useState(10)
   const [text, setText] = useState('')
   const [saving, setSaving] = useState(false)
@@ -23,7 +16,7 @@ function EditReviewModal({ review, show, onHide, onUpdated }: Props) {
     }
   }, [review])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!review) {
