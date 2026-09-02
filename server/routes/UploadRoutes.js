@@ -28,12 +28,13 @@ function createUploadRoutes({ files, jwt_protection }) {
         });
       }
 
+      const user_id = new mongodb.ObjectId(req.user._id);
       const image = {
         originalName: req.file.originalname,
         mimeType: req.file.mimetype,
         size: req.file.size,
         data: req.file.buffer,
-        authorID: req.user._id,
+        authorID: user_id,
         uploadedAt: new Date()
       };
 
@@ -74,6 +75,36 @@ function createUploadRoutes({ files, jwt_protection }) {
         .toArray();
       
       res.json(userImages);
+    } catch (e) {
+      res.status(500).json({
+        error: e.message
+      });
+    }
+  });
+
+  // GET jednu sliku
+  router.get('/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+  
+      if (!mongodb.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          error: 'Invalid file ID'
+        });
+      }
+  
+      const file = await files.findOne({
+        _id: new mongodb.ObjectId(id)
+      });
+  
+      if (!file) {
+        return res.status(404).json({
+          error: 'Image not found'
+        });
+      }
+  
+      res.setHeader('Content-Type', file.mimeType);
+      res.send(file.data.buffer);
     } catch (e) {
       res.status(500).json({
         error: e.message
