@@ -45,7 +45,7 @@ function AppNavbar() {
         >
           <img
             alt="logo"
-            src="../movie-projector.png"
+            src="/movie-projector.png"
             width="32"
             height="32"
             className="d-inline-block align-top"

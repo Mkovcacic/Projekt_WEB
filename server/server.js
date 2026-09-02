@@ -14,6 +14,7 @@ const createMovieRoutes = require('./routes/MovieRoutes');
 const createAuthRoutes = require('./routes/AuthRoutes');
 const createReviewRoutes = require('./routes/ReviewRoutes');
 const createUserRoutes = require('./routes/UserRoutes');
+const createUploadRoutes = require('./routes/Upload');
 
 const port = process.env.PORT;
 const app = express();
@@ -43,6 +44,7 @@ app.use(express.urlencoded({ extended: false }));
 
     const users = db.collection('users');
     const reviews = db.collection('reviews');
+    const files = db.collection("files");
 
     async function hashPassword(password) {
       const salt = (await randomBytesAsync(16)).toString('hex');
@@ -75,6 +77,7 @@ app.use(express.urlencoded({ extended: false }));
     app.use('/api/movie', createMovieRoutes());
     app.use('/api/reviews', createReviewRoutes({ reviews, jwt_protection, io }));
     app.use('/api/user', createUserRoutes({ users, jwt_protection }));
+    app.use('/api/files', createUploadRoutes({files,jwt_protection}));
 
 
     io.on('connection', (socket) => {

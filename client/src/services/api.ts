@@ -289,3 +289,45 @@ export async function deleteCurrentUser(): Promise<void> {
     throw new Error(data.error || data.message || 'Greška kod brisanja korisničkog računa')
   }
 }
+
+// File upload
+export async function uploadImage(file: File): Promise<Image> {
+  const token = getToken()
+
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const response = await fetch(`${API_URL}/api/files/upload`, {
+    method: 'POST',
+    headers: {
+      authorization: token || ''
+    },
+    body: formData
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod uploada slike')
+  }
+
+  return data
+}
+
+export async function getUserImages(userID: string): Promise<Image[]> {
+  const response = await fetch(
+    `${API_URL}/api/files/user/${encodeURIComponent(userID)}`
+  )
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'Greška kod dohvaćanja slika')
+  }
+
+  return data
+}
+
+export function getImageURL(imageID: string): string {
+  return `${API_URL}/api/files/${imageID}`
+}
