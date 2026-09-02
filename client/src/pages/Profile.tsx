@@ -5,6 +5,8 @@ import { Calendar3, Envelope, Film, Person, PencilSquare, StarFill } from 'react
 import { getCurrentUser, getUserReviews, downloadReviews } from '../services/api'
 import { socket } from '../services/socket'
 import EditProfileModal from '../components/EditProfileModal'
+import UploadImage from '../components/UploadImage'
+import { getUserImages, getImageURL } from '../services/api'
 
 function Profile() {
   const [user, setUser] = useState<CurrentUser | null>(null)
@@ -17,6 +19,10 @@ function Profile() {
   const [reviews, setReviews] = useState<Review[]>([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState<string | null>(null)
+
+  const [images, setImages] = useState<Image[]>([])
+  const [imagesLoading, setImagesLoading] = useState(true)
+  const [imagesError, setImagesError] = useState<string | null>(null)
 
   useEffect(() => {
 
@@ -55,6 +61,28 @@ function Profile() {
     }
 
     loadReviews()
+  }, [id])
+
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!id) return
+
+      try {
+        setImagesLoading(true)
+        setImagesError(null)
+
+        const data = await getUserImages(id)
+        setImages(data)
+      } catch (e) {
+        if (e instanceof Error) {
+          setImagesError(e.message)
+        }
+      } finally {
+        setImagesLoading(false)
+      }
+    }
+
+    loadImages()
   }, [id])
 
   useEffect(() => {
@@ -308,6 +336,65 @@ function Profile() {
               </Card.Body>
             </Card>
           ))
+        )}
+      </div>
+
+      <div className="mt-5">
+        <div className="mb-4">
+          <h3 className="fw-bold mb-1">
+            Images
+          </h3>
+            
+          <p className="text-secondary mb-0">
+            Images uploaded by you.
+          </p>
+        </div>
+            
+        <UploadImage
+          onUploaded={(image) =>
+            setImages((currentImages) => [
+              image,
+              ...currentImages
+            ])
+          }
+        />
+      
+        {imagesError && (
+          <Alert variant="danger">
+            {imagesError}
+          </Alert>
+        )}
+      
+        {imagesLoading ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" />
+          </div>
+        ) : images.length === 0 ? (
+          <div className="bg-body-tertiary rounded-4 text-center p-5">
+            <h5 className="fw-semibold mb-2">
+              No images yet
+            </h5>
+        
+            <p className="text-secondary mb-0">
+              Upload your first image.
+            </p>
+          </div>
+        ) : (
+          <Row className="g-3">
+            {images.map((image) => (
+              <Col xs={12} sm={6} md={4} key={image._id}>
+                <img
+                  src={getImageURL(image._id)}
+                  alt={image.originalName}
+                  className="img-fluid rounded-3 w-100"
+                />
+      
+                <div className="small text-secondary mt-2">
+                  {image.originalName}
+                </div>
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
       {user && (

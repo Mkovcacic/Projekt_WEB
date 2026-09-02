@@ -112,3 +112,12 @@ type PublicUser = {
   favGenre: string
   createdAt: string
 }
+
+type Image = {
+  _id: string
+  originalName: string
+  mimeType: string
+  size: number
+  authorID: string
+  uploadedAt: string
+}
