@@ -54,7 +54,7 @@ function UploadImage({ onUploaded }: Props) {
         </Alert>
       )}
 
-      <Form.Group className="mb-3 d-flex justify-content-center justify-content-lg-start">
+      <Form.Group className="mb-3 text-center text-lg-start">
         <Form.Label className="fw-semibold">
           Upload image
         </Form.Label>
