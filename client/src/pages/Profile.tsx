@@ -344,7 +344,7 @@ function Profile() {
             Images
           </h3>
 
-          <p className="text-secondary mb-0 d-flex justify-content-center justify-content-lg-start">
+          <p className="text-secondary mb-0">
             Images uploaded by you.
           </p>
         </div>
