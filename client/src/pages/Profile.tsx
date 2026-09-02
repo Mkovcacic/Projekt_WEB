@@ -349,7 +349,7 @@ function Profile() {
           </p>
         </div>
 
-        <div className="w-lg-50  w-75 mx-auto d-flex justify-content-center justify-content-lg-start">
+        <div className="w-lg-50  w-75 mx-auto mx-lg-0 d-flex justify-content-center justify-content-lg-start">
           <UploadImage
             onUploaded={(image) =>
               setImages((currentImages) => [
