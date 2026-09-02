@@ -338,18 +338,18 @@ function Profile() {
           ))
         )}
       </div>
-      <div className="mt-5 dflex justify-content-center justify-content-lg-start">
-        <div className="mb-4">
+      <div className="mt-5">
+        <div className="mb-4 d-flex justify-content-center justify-content-lg-start">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
 
-          <p className="text-secondary mb-0">
+          <p className="text-secondary mb-0 d-flex justify-content-center justify-content-lg-start">
             Images uploaded by you.
           </p>
         </div>
 
-        <div className="w-50">
+        <div className="w-lg-50  w-75 d-flex justify-content-center justify-content-lg-start">
           <UploadImage
             onUploaded={(image) =>
               setImages((currentImages) => [

@@ -317,26 +317,15 @@ function UserProfile() {
           ))
         )}
       </div>
-      <div className="mt-5 dflex justify-content-center justify-content-lg-start">
+      <div className="mt-5 d-flex justify-content-center justify-content-lg-start">
         <div className="mb-4">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
 
           <p className="text-secondary mb-0">
-            Images uploaded by you.
+            Images uploaded by the user.
           </p>
-        </div>
-
-        <div className="w-50">
-          <UploadImage
-            onUploaded={(image) =>
-              setImages((currentImages) => [
-                image,
-                ...currentImages
-              ])
-            }
-          />
         </div>
 
         {imagesError && (
