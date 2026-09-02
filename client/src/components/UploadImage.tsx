@@ -66,13 +66,15 @@ function UploadImage({ onUploaded }: Props) {
         />
       </Form.Group>
 
-      <Button
-        variant="outline-primary"
-        onClick={handleUpload}
-        disabled={!file || loading}
-      >
-        {loading ? 'Uploading...' : 'Upload'}
-      </Button>
+      <div className="d-flex justify-content-center justify-content-lg-start">
+        <Button
+          variant="outline-primary"
+          onClick={handleUpload}
+          disabled={!file || loading}
+        >
+          {loading ? 'Uploading...' : 'Upload'}
+        </Button>
+      </div>
     </div>
   )
 }
