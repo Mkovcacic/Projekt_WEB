@@ -339,7 +339,7 @@ function Profile() {
         )}
       </div>
       <div className="mt-5">
-        <div className="mb-4 d-flex justify-content-center justify-content-lg-start">
+        <div className="mb-4 text-center text-lg-start">
           <h3 className="fw-bold mb-1">
             Images
           </h3>

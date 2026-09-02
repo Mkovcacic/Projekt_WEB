@@ -317,13 +317,13 @@ function UserProfile() {
         )}
       </div>
       <div className="mt-5">
-        <div className="mb-4 d-flex justify-content-center justify-content-lg-start">
+        <div className="mb-4 text-center text-lg-start">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
 
           <p className="text-secondary mb-0">
-            Images uploaded by the user.
+            Images uploaded by the {user.username}.
           </p>
         </div>
 
