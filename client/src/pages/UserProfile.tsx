@@ -63,24 +63,6 @@ function UserProfile() {
   }, [id])
 
   useEffect(() => {
-    if (!id) return
-
-    socket.connect()
-    socket.emit('join-user-room', id)
-
-    const handleReviewCreated = (review: Review) => {
-      setReviews((currentReviews) => {
-        const exists = currentReviews.some(
-          (currentReview) => currentReview._id === review._id
-        )
-
-        if (exists) return currentReviews
-
-        return [review, ...currentReviews]
-      })
-    }
-
-  useEffect(() => {
     const loadImages = async () => {
       if (!id) return
 
@@ -101,6 +83,24 @@ function UserProfile() {
 
     loadImages()
   }, [id])
+
+  useEffect(() => {
+    if (!id) return
+
+    socket.connect()
+    socket.emit('join-user-room', id)
+
+    const handleReviewCreated = (review: Review) => {
+      setReviews((currentReviews) => {
+        const exists = currentReviews.some(
+          (currentReview) => currentReview._id === review._id
+        )
+
+        if (exists) return currentReviews
+
+        return [review, ...currentReviews]
+      })
+    }
 
     const handleReviewUpdated = (updatedReview: Review) => {
       setReviews((currentReviews) =>
