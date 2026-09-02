@@ -4,7 +4,8 @@ import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { Calendar3, Envelope, Film, Person, StarFill } from 'react-bootstrap-icons'
 import { getUserById, getUserReviews } from '../services/api'
 import { socket } from '../services/socket'
-
+import UploadImage from '../components/UploadImage'
+import { getUserImages, getImageURL } from '../services/api'
 
 function UserProfile() {
   const { id } = useParams()
@@ -15,6 +16,10 @@ function UserProfile() {
   const [reviews, setReviews] = useState<Review[]>([])
   const [reviewsLoading, setReviewsLoading] = useState(true)
   const [reviewsError, setReviewsError] = useState<string | null>(null)
+
+  const [images, setImages] = useState<Image[]>([])
+  const [imagesLoading, setImagesLoading] = useState(true)
+  const [imagesError, setImagesError] = useState<string | null>(null)
 
   useEffect(() => {
     const loadUser = async () => {
@@ -74,6 +79,28 @@ function UserProfile() {
         return [review, ...currentReviews]
       })
     }
+
+  useEffect(() => {
+    const loadImages = async () => {
+      if (!id) return
+
+      try {
+        setImagesLoading(true)
+        setImagesError(null)
+
+        const data = await getUserImages(id)
+        setImages(data)
+      } catch (e) {
+        if (e instanceof Error) {
+          setImagesError(e.message)
+        }
+      } finally {
+        setImagesLoading(false)
+      }
+    }
+
+    loadImages()
+  }, [id])
 
     const handleReviewUpdated = (updatedReview: Review) => {
       setReviews((currentReviews) =>
@@ -288,6 +315,62 @@ function UserProfile() {
               </Card.Body>
             </Card>
           ))
+        )}
+      </div>
+      <div className="mt-5 dflex justify-content-center justify-content-lg-start">
+        <div className="mb-4">
+          <h3 className="fw-bold mb-1">
+            Images
+          </h3>
+
+          <p className="text-secondary mb-0">
+            Images uploaded by you.
+          </p>
+        </div>
+
+        <div className="w-50">
+          <UploadImage
+            onUploaded={(image) =>
+              setImages((currentImages) => [
+                image,
+                ...currentImages
+              ])
+            }
+          />
+        </div>
+
+        {imagesError && (
+          <Alert variant="danger">
+            {imagesError}
+          </Alert>
+        )}
+
+        {imagesLoading ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" />
+          </div>
+        ) : images.length === 0 ? (
+          <div className="bg-body-tertiary rounded-4 text-center p-5">
+            <h5 className="fw-semibold mb-2">
+              No images yet
+            </h5>
+        
+            <p className="text-secondary mb-0">
+              Upload your first image.
+            </p>
+          </div>
+        ) : (
+          <Row className="g-3">
+            {images.map((image) => (
+              <Col xs={12} sm={6} md={4} key={image._id}>
+                <img
+                  src={getImageURL(image._id)}
+                  alt={image.originalName}
+                  className="img-fluid rounded-3 w-100"
+                />
+              </Col>
+            ))}
+          </Row>
         )}
       </div>
     </Container>
