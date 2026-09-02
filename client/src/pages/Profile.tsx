@@ -338,33 +338,34 @@ function Profile() {
           ))
         )}
       </div>
-
-      <div className="mt-5">
+      <div className="mt-5 dflex justify-content-center justify-content-lg-start">
         <div className="mb-4">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
-            
+
           <p className="text-secondary mb-0">
             Images uploaded by you.
           </p>
         </div>
-            
-        <UploadImage
-          onUploaded={(image) =>
-            setImages((currentImages) => [
-              image,
-              ...currentImages
-            ])
-          }
-        />
-      
+
+        <div className="w-50">
+          <UploadImage
+            onUploaded={(image) =>
+              setImages((currentImages) => [
+                image,
+                ...currentImages
+              ])
+            }
+          />
+        </div>
+
         {imagesError && (
           <Alert variant="danger">
             {imagesError}
           </Alert>
         )}
-      
+
         {imagesLoading ? (
           <div className="text-center py-5">
             <Spinner animation="border" />
@@ -388,10 +389,6 @@ function Profile() {
                   alt={image.originalName}
                   className="img-fluid rounded-3 w-100"
                 />
-      
-                <div className="small text-secondary mt-2">
-                  {image.originalName}
-                </div>
               </Col>
             ))}
           </Row>
