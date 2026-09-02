@@ -316,8 +316,8 @@ function UserProfile() {
           ))
         )}
       </div>
-      <div className="mt-5 d-flex justify-content-center justify-content-lg-start">
-        <div className="mb-4">
+      <div className="mt-5">
+        <div className="mb-4 d-flex justify-content-center justify-content-lg-start">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
