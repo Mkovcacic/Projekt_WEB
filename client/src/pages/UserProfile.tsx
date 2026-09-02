@@ -63,24 +63,6 @@ function UserProfile() {
   }, [id])
 
   useEffect(() => {
-    if (!id) return
-
-    socket.connect()
-    socket.emit('join-user-room', id)
-
-    const handleReviewCreated = (review: Review) => {
-      setReviews((currentReviews) => {
-        const exists = currentReviews.some(
-          (currentReview) => currentReview._id === review._id
-        )
-
-        if (exists) return currentReviews
-
-        return [review, ...currentReviews]
-      })
-    }
-
-  useEffect(() => {
     const loadImages = async () => {
       if (!id) return
 
@@ -101,6 +83,24 @@ function UserProfile() {
 
     loadImages()
   }, [id])
+
+  useEffect(() => {
+    if (!id) return
+
+    socket.connect()
+    socket.emit('join-user-room', id)
+
+    const handleReviewCreated = (review: Review) => {
+      setReviews((currentReviews) => {
+        const exists = currentReviews.some(
+          (currentReview) => currentReview._id === review._id
+        )
+
+        if (exists) return currentReviews
+
+        return [review, ...currentReviews]
+      })
+    }
 
     const handleReviewUpdated = (updatedReview: Review) => {
       setReviews((currentReviews) =>
@@ -317,26 +317,15 @@ function UserProfile() {
           ))
         )}
       </div>
-      <div className="mt-5 dflex justify-content-center justify-content-lg-start">
+      <div className="mt-5 d-flex justify-content-center justify-content-lg-start">
         <div className="mb-4">
           <h3 className="fw-bold mb-1">
             Images
           </h3>
 
           <p className="text-secondary mb-0">
-            Images uploaded by you.
+            Images uploaded by the user.
           </p>
-        </div>
-
-        <div className="w-50">
-          <UploadImage
-            onUploaded={(image) =>
-              setImages((currentImages) => [
-                image,
-                ...currentImages
-              ])
-            }
-          />
         </div>
 
         {imagesError && (
