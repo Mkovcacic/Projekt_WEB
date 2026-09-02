@@ -4,7 +4,6 @@ import { Alert, Card, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { Calendar3, Envelope, Film, Person, StarFill } from 'react-bootstrap-icons'
 import { getUserById, getUserReviews } from '../services/api'
 import { socket } from '../services/socket'
-import UploadImage from '../components/UploadImage'
 import { getUserImages, getImageURL } from '../services/api'
 
 function UserProfile() {
